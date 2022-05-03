@@ -1,23 +1,13 @@
 require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
-const saucesRoutes = require('./routes/sauce');
-const userRoutes = require('./routes/user');
 const path = require('path');
 const cookie = require('cookie-session');//gestion et sécurisation des cookies
 const keygrip = require('keygrip');
 
-
-const ID = process.env.ID;
-const MDP = process.env.PASSWORD;
-const ADRESS = process.env.ADRESS
-//Connection a notre base de donnée MongoDB
-mongoose.connect(`mongodb+srv://${ID}:${MDP}@${ADRESS}`,
-    { useNewUrlParser: true,
-    useUnifiedTopology: true })
-.then(() => console.log('Connexion à MongoDB réussie !'))
-.catch(() => console.log('Connexion à MongoDB échouée !'));
+//Connexion à la basse de donnée
+const { dbConnection } = require('./middleware/dataBase');
+dbConnection();
   
 const app = express();
 
@@ -47,9 +37,6 @@ app.use(cookie({
 
 
 app.use(bodyParser.json());
-
-app.use('/api/sauces', saucesRoutes);
-app.use('/api/auth', userRoutes);
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
 module.exports = app;

@@ -1,4 +1,4 @@
-//route get : getComments
+//route get : getCommentsByPost
 
 //route post : createComment
 
