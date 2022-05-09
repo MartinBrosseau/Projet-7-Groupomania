@@ -8,4 +8,4 @@
 
 //route delete : deletePost
 
-//route post : likeAndDislike
+//route post : like
