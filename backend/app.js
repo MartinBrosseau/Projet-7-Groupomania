@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
+const userRoutes = require('./routes/user');
 const path = require('path');
 const cookie = require('cookie-session');//gestion et sécurisation des cookies
 const keygrip = require('keygrip');
@@ -37,6 +38,7 @@ app.use(cookie({
 
 
 app.use(bodyParser.json());
+app.use('/api/auth', userRoutes);
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
 module.exports = app;
