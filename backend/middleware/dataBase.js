@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize');
-require('dotenv').config();
+require('dotenv').config();// install avec mysql
+
 
 const DATABASE_NAME = process.env.DATABASE_NAME;
 const USERNAME = process.env.DB_USERNAME;
@@ -19,4 +20,7 @@ const dbConnection = async () => {
     }
 }
 
+module.exports.getDB = () =>{
+    return dbConnection
+}
 module.exports = { sequelize, dbConnection }

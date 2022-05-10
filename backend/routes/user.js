@@ -16,3 +16,4 @@ router.post('/login', userCtrl.login);
 
 //route delete : deleteUserProfil
 
+module.exports = router;
