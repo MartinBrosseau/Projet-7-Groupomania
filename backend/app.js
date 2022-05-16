@@ -5,11 +5,10 @@ const path = require('path');
 const cookie = require('cookie-session');//gestion et sécurisation des cookies
 const keygrip = require('keygrip');
 const userRoutes = require('./routes/user');
+const dataBaseConnection = require('./middleware/dataBase');
 
-//Connexion à la basse de donnée
-const { dbConnection } = require('./middleware/dataBase');
-dbConnection();
-  
+dataBaseConnection;
+
 const app = express();
 
 app.use((req, res, next) => {

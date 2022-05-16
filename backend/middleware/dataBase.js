@@ -1,26 +1,23 @@
-const Sequelize = require('sequelize');
-require('dotenv').config();// install avec mysql
+const mysql = require('mysql2');
+require('dotenv').config();
 
 
-const DATABASE_NAME = process.env.DATABASE_NAME;
 const USERNAME = process.env.DB_USERNAME;
 const PASSWORD = process.env.DB_PASSWORD;
-console.log(USERNAME)
-const sequelize = new Sequelize(DATABASE_NAME, USERNAME, PASSWORD, {
-    host: 'localhost',
-    dialect: 'mysql'
+const DATABASENAME = process.env.DATABASE_NAME;
+
+const dataBaseConnection = mysql.createConnection({
+    host : 'localhost',
+    user : USERNAME,
+    password : PASSWORD,
+    database : DATABASENAME
+   
 });
 
-const dbConnection = async () => {
-    try {
-        await sequelize.authenticate()
-        console.log('Connected to database')
-    } catch (err) {
-        throw new Error(err)
-    }
-}
+dataBaseConnection.connect(error => {
+    if (error) throw error;
+    console.log("Successfully connected to the database.");
+});
 
-module.exports.getDB = () =>{
-    return dbConnection
-}
-module.exports = { sequelize, dbConnection }
+
+module.exports = dataBaseConnection;
