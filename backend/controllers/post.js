@@ -1,6 +1,6 @@
 require('dotenv').config();
 const jwt = require('jsonwebtoken');//Jsonwebtoken attribue un token a un utilisateur lorsqu'il se connecte
-const Post = require('../models/Post');
+
 
 
 

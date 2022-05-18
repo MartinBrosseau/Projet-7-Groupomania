@@ -5,7 +5,7 @@ const path = require('path');
 const cookie = require('cookie-session');//gestion et sécurisation des cookies
 const keygrip = require('keygrip');
 const userRoutes = require('./routes/user');
-const dataBaseConnection = require('./middleware/dataBase');
+const dataBaseConnection = require('./config/dataBase');
 
 dataBaseConnection;
 
