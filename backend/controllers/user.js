@@ -3,7 +3,6 @@ const bcrypt = require('bcrypt');//Bcrypt sert a hasher les mdp afin de les séc
 const jwt = require('jsonwebtoken');//Jsonwebtoken attribue un token a un utilisateur lorsqu'il se connecte
 const mysql = require('mysql2');//Pour intéragir avec notre base de donnée
 const dataBaseConnection = require('../config/dataBase');
-
 const TOKEN = process.env.TOKEN;
 
 //Création d'un nouvel utilisateur
@@ -34,6 +33,7 @@ exports.signup = (req, res, next) => {
 };
 
 
+
 //Connection d'un utilisateur existant
 exports.login = (req, res, next) => {
   const userEmail = req.body.email;
@@ -61,4 +61,47 @@ exports.login = (req, res, next) => {
       })
     .catch(error => res.status(500).json({ error }));
   });
+};
+
+
+exports.userProfil = (req, res, next) => {
+  const token = req.headers.authorization.split(' ')[1]; //On récupère l'id utilisateur dans le token
+  const decodedToken = jwt.verify(token,`${TOKEN}`);
+  const userId = decodedToken.userId;
+//Récuperation de l'utilisateur grâce a son token fournit lors de la connection
+  if (Number(req.paramq.id) === userId) {
+    const getUser = "SELECT username, email FROM users WHERE id = userId";
+    dataBaseConnection.query(getUser, function (error, result) {
+      if (result === "" || result == undefined) {
+        return res.status(400).json({error : "Utilisateur introuvable !"})
+      } else {
+        return res.status(200).json({
+          username: req.body.username, 
+          email: req.body.email
+        })
+      }
+    })
+  } else {
+    return res.status(400).json({ error: "Vous n'êtes pas autorisé a faire cela !"})
+  }
+};
+
+
+exports.deleteUser = (req, res, next) => {
+  const token = req.headers.authorization.split(' ')[1]; //On récupère l'id utilisateur dans le token
+  const decodedToken = jwt.verify(token,`${TOKEN}`);
+  const userId = decodedToken.userId;
+
+  if(Number(req.params.id) === userId) {
+    const deleteUser = "DELETE FROM users WHERE id = userId";
+    dataBaseConnection.query(deleteUser, function(error, result) {
+      if (error) {
+        return res.status(400).json({ error: "La suppression a échouée !"})
+      } else {
+        return res.status(200).json({message: "Suppression réussie !"})
+      }
+    });
+  } else {
+    return res.status(400).json({error: "Vous n'êtes pas autorisé a faire cela !"})
+  }
 };
