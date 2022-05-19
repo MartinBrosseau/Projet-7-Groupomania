@@ -52,8 +52,9 @@ exports.login = (req, res, next) => {
         const savedId = "SELECT id FROM users WHERE email = userEmail";
         res.status(200).json({
           userId: savedId,
+          isAdmin: savedId.admin,
           token: jwt.sign(
-            { userId: savedId },
+            { userId: savedId, isAdmin: savedId.admin },
             `${TOKEN}`,
             { expiresIn: '24h' }
           )

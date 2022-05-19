@@ -5,7 +5,10 @@ const path = require('path');
 const cookie = require('cookie-session');//gestion et sécurisation des cookies
 const keygrip = require('keygrip');
 const userRoutes = require('./routes/user');
+const postRoutes = require('./routes/post');
+const commentRoutes = require('./routes/comment');
 const dataBaseConnection = require('./config/dataBase');
+const { application } = require('express');
 
 dataBaseConnection;
 
@@ -38,6 +41,8 @@ app.use(cookie({
 
 app.use(bodyParser.json());
 app.use('/api/auth', userRoutes);
+app.use('/api/post', postRoutes);
+app.use('/api/comment', commentRoutes);
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
 module.exports = app;

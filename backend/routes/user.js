@@ -4,6 +4,7 @@ const userCtrl = require('../controllers/user');
 
 
 
+
 //route post : signup
 router.post('/signup', userCtrl.signup);
 
