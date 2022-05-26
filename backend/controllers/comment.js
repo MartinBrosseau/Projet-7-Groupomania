@@ -13,7 +13,9 @@ exports.createComment = (req, res, next) => {
   const postId = req.params.id;
   const content = req.body.content;
 
-  const saveComment = "INSERT INTO comments ( user_id, post_id, content) VALUES  ( userId, postId, content )";
+  let saveComment = "INSERT INTO comments ( user_id, post_id, content) VALUES  ( ?, ?, ? )";
+  let saveCommentValues = [userId, postId, content];
+  saveComment = mysql.format(saveComment, saveCommentValues);
   dataBaseConnection.query(saveComment, function(error, result) {
       if (error) {
           return res.status(400).json({ error: "La création du commentaire a échouée"});
@@ -31,7 +33,9 @@ exports.modifyComment = (req, res, next) => {
   const commentId = req.params.id;
   const newContent = req.body.content;
   
-  const updatePost = "UPDATE comments SET content = newContent";
+  let updatePost = "UPDATE comments SET content = ?";
+  let updatePostValues = [newContent];
+  updatePost = mysql.format(updatePost, updatePostValues);
   dataBaseConnection.query(updatePost, function(error, result) {
       if (error) {
           return res.status(400).json({ error: "La modification a échouée"});
@@ -47,10 +51,12 @@ exports.deleteComment = (req, res, next) => {
   const decodedToken = jwt.verify(token,`${TOKEN}`);
   const userId = decodedToken.userId; 
   const isAdmin = decodedToken.isAdmin;
-  commentId = req.params.id;
+  const commentId = req.params.id;
 
   if (isAdmin !== 0) { //Suppression par un modérateur
-      const deleteComment = "DELETE FROM comments WHERE id = commentId";
+      let deleteComment = "DELETE FROM comments WHERE id = ?";
+      let deleteCommentValues = [commentId];
+      deleteComment = mysql.format(deleteComment, deleteCommentValues);
       dataBaseConnection.query(deleteComment, function(error, result) {
           if (error) {
               return res.status(400).json({ error: "La suppression a échouée"});
@@ -59,7 +65,9 @@ exports.deleteComment = (req, res, next) => {
           }
       });    
     } else { //Suppression par le créateur du commentaire
-        const deleteComment = "DELETE FROM comments WHERE id = commentId AND user_id = userId";
+        let deleteComment = "DELETE FROM comments WHERE id = ? AND user_id = ?";
+        let deleteCommentValues = [commentId, userId];
+        deleteComment = mysql.format(deleteComment, deleteCommentValues);
         dataBaseConnection.query(deleteComment, function(error, result) {
             if (error) {
                 return res.status(400).json({ error: "La suppression a échouée"});

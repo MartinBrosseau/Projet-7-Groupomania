@@ -18,7 +18,9 @@ exports.createPost = (req, res, next) => {
     imgUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
   }
 
-  const savePost = "INSERT INTO posts (user_id, description, image, title) VALUES (userId, postDescription, imgUrl, postTitle)";
+  let savePost = "INSERT INTO posts (user_id, description, image, title) VALUES (userId, postDescription, imgUrl, postTitle)";
+  let savePostValues = [userId, postDescription, imgUrl, postTitle];
+  savePost = mysql.format(savePost, savePostValues);
   dataBaseConnection.query(savePost, function(error, result) {
     if (error) {
       return res.status(400).json({ error: "La création du post a échouée !" });
@@ -43,8 +45,12 @@ exports.modifyPost = (req, res, next) => {
     imgUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
   }
 
-  const previousImg = "SELECT imageUrl FROM posts WHERE id = postId";
-  const updatePost = "UPDATE posts SET description = postDescription, imageUrl = imgUrl, title = postTitle WHERE id = postId";
+  let previousImg = "SELECT imageUrl FROM posts WHERE id = ?";
+  let previousImgValues = [postId];
+  previousImg = mysql.format(previousImg, previousImgValues);
+  let updatePost = "UPDATE posts SET description = ?, imageUrl = ?, title = ? WHERE id = ?";
+  let updatePostValues = [postDescription, imgUrl, postTitle, postId];
+  updatePost = mysql.format(updatePost, updatePostValues);
   dataBaseConnection.query(previousImg, function (error, result) {
     if (error) {
       return res.status(400).json({ error: "Suppression de l'image échouée"})
@@ -76,8 +82,12 @@ exports.deletePost = (req, res, next) => {
   const isAdmin = decodedToken.isAdmin;
 
   if( isAdmin !== 0) { //Suppression par un moderateur
-    const postImg = "SELECT imageUrl FROM posts where id = postId";
-    const deletePost = "DELETE FROM posts WHERE id = postId";
+    let postImg = "SELECT imageUrl FROM posts where id = ?";
+    let postImgValues = [postId];
+    postImg = mysql.format(postImg, postImgValues);
+    let deletePost = "DELETE FROM posts WHERE id = ?";
+    let deletePostValues = [postId];
+    deletePost = mysql.format(deletePost, deletePostValues);
     dataBaseConnection.query(postImg, function (error, result) {
       if (error) {
         return res.status(400).json({ error: "La suppression de l'image a échouée"})
@@ -102,8 +112,12 @@ exports.deletePost = (req, res, next) => {
       
     });
   } else { //Suppression par le créateur du post
-    const postImg = "SELECT imageUrl FROM posts where id = postId";
-    const deletePost = "DELETE FROM posts WHERE id = postId AND user_id = userId";
+    let postImg = "SELECT imageUrl FROM posts where id = ?";
+    let postImgValues = [postId];
+    postImg = mysql.format(postImg, postImgValues);
+    let deletePost = "DELETE FROM posts WHERE id = ? AND user_id = ?";
+    let deletePostValues = [postId, userId];
+    deletePost = mysql.format(deletePost, deletePostValues);
     dataBaseConnection.query(postImg, function(error, result) {
       if (error) {
         return res.status(400).json({ error: "La suppression a échouée"})

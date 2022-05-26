@@ -13,7 +13,9 @@ exports.signup = (req, res, next) => {
   
   bcrypt.hash(userPassword, 10)
     .then(hash => {
-      const saveUser = "INSERT INTO users ( username, email, password ) VALUES ( userUsername, userEmail, hash )";
+      let saveUser = "INSERT INTO users ( username, email, password ) VALUES ( ?, ?, ? )";
+      let saveUserValues = [ userUsername, userEmail, hash];
+      saveUser = mysql.format(saveUser, saveUserValues);
       dataBaseConnection.query(saveUser, function(error, result) {
         if (error) {
           return res.status(400).json({error})
@@ -38,23 +40,23 @@ exports.signup = (req, res, next) => {
 exports.login = (req, res, next) => {
   const userEmail = req.body.email;
   const userPassword = req.body.password;
-  const savedPassword = "SELECT password FROM users WHERE email = userEmail";
-  const findUser = "SELECT id, username FROM users WHERE email = userEmail";
+  let findUser = "SELECT id, username, email, password, admin FROM users WHERE email = ?";
+  let findUserValues = [userEmail];
+  findUser = mysql.format(findUser, findUserValues);
   dataBaseConnection.query(findUser, function (error, result) {
     if (result === "" || result == undefined) {
       return res.status(401).json({ error: "Utilisateur introuvable,veuillez vérifier votre adresse mail"});
     }
-    bcrypt.compare(userPassword, savedPassword)
+    bcrypt.compare(userPassword, result[0].password)
       .then(valid => {
         if (!valid) {
           return res.status(401).json({ error: 'Mot de passe incorrect !' });
         }
-        const savedId = "SELECT id FROM users WHERE email = userEmail";
         res.status(200).json({
-          userId: savedId,
-          isAdmin: savedId.admin,
+          userId: result[0].id,
+          isAdmin: result[0].admin,
           token: jwt.sign(
-            { userId: savedId, isAdmin: savedId.admin },
+            { userId: result[0].id, isAdmin: result[0].admin },
             `${TOKEN}`,
             { expiresIn: '24h' }
           )
@@ -71,14 +73,16 @@ exports.userProfil = (req, res, next) => {
   const userId = decodedToken.userId;
 //Récuperation de l'utilisateur grâce a son token fournit lors de la connection
   if (Number(req.paramq.id) === userId) {
-    const getUser = "SELECT username, email FROM users WHERE id = userId";
+    let getUser = "SELECT username, email FROM users WHERE id = ?";
+    let getUserValues = [userId];
+    getUser = mysql.format(getUser, getUserValues);
     dataBaseConnection.query(getUser, function (error, result) {
       if (result === "" || result == undefined) {
         return res.status(400).json({error : "Utilisateur introuvable !"})
       } else {
         return res.status(200).json({
-          username: req.body.username, 
-          email: req.body.email
+          username: result[0].username, 
+          email: result[0].email
         })
       }
     })
@@ -94,7 +98,9 @@ exports.deleteUser = (req, res, next) => {
   const userId = decodedToken.userId;
 
   if(Number(req.params.id) === userId) {
-    const deleteUser = "DELETE FROM users WHERE id = userId";
+    let deleteUser = "DELETE FROM users WHERE id = ?";
+    let deleteUserValues = [userId];
+    deleteUser = myssql.format(deleteUser, deleteUserValues);
     dataBaseConnection.query(deleteUser, function(error, result) {
       if (error) {
         return res.status(400).json({ error: "La suppression a échouée !"})
