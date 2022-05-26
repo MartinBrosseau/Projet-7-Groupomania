@@ -15,6 +15,7 @@ router.post('/login', userCtrl.login);
 router.get('/userProfil', userCtrl.userProfil);
 
 //route put : modifyUserProfil
+router.put('/modifyUserProfil', userCtrl.modifyUserProfil);
 
 //route delete : deleteUserProfil
 router.delete('/deleteUser', userCtrl.deleteUser);

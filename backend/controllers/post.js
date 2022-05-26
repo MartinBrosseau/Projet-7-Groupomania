@@ -6,6 +6,8 @@ const TOKEN = process.env.TOKEN;
 const fs = require("fs");
 
 
+
+
 exports.createPost = (req, res, next) => {
   const token = req.headers.authorization.split(' ')[1]; //On récupère l'id utilisateur dans le token
   const decodedToken = jwt.verify(token,`${TOKEN}`);
@@ -29,6 +31,8 @@ exports.createPost = (req, res, next) => {
     }
   })
 };
+
+
 
 
 exports.modifyPost = (req, res, next) => {
@@ -74,6 +78,8 @@ exports.modifyPost = (req, res, next) => {
 };
 
 
+
+
 exports.deletePost = (req, res, next) => {
   const token = req.headers.authorization.split(' ')[1]; //On récupère l'id utilisateur dans le token
   const decodedToken = jwt.verify(token,`${TOKEN}`);
@@ -108,8 +114,6 @@ exports.deletePost = (req, res, next) => {
           }
         });
       } 
-    
-      
     });
   } else { //Suppression par le créateur du post
     let postImg = "SELECT imageUrl FROM posts where id = ?";
@@ -140,3 +144,74 @@ exports.deletePost = (req, res, next) => {
     });
   }
 };
+
+
+
+
+exports.getAllPosts = (req, res, next) => {
+  const token = req.headers.authorization.split(' ')[1]; //On récupère l'id utilisateur dans le token
+  const decodedToken = jwt.verify(token,`${TOKEN}`);
+  const userId = decodedToken.userId;
+  let allPosts = "SELECT * FROM posts"
+  dataBaseConnection.query(allPosts, function(error, result) {
+    if (error) {
+      return res.status(400).json({error: "Impossible de récupérer les posts"})
+    } else {
+      return res.status(200).json({message: "Récupération des posts réussie"})
+    }
+  });
+}
+
+
+
+
+exports.getOnePost = (req, res, next) => {
+  const token = req.headers.authorization.split(' ')[1]; //On récupère l'id utilisateur dans le token
+  const decodedToken = jwt.verify(token,`${TOKEN}`);
+  const userId = decodedToken.userId;
+  const postId = req.params.id;
+  let onePost = "SELECT * FROM posts WHERE id = ?";
+  let onePostValues = [postId];
+  onePost = mysql.format(onePost, onePostValues);
+  dataBaseConnection.query(onePost, function(error, result) {
+    if (error) {
+      return res.status(400).json({error: "Impossible de récupérer ce post"})
+    } else {
+      return res.status(200).json({message: "Récupération du post réussie"})
+    }
+  });
+}
+
+
+
+
+exports.getPostsByUser = (req, res, next) =>{
+  const token = req.headers.authorization.split(' ')[1]; //On récupère l'id utilisateur dans le token
+  const decodedToken = jwt.verify(token,`${TOKEN}`);
+  const userId = decodedToken.userId;
+  let postsByUser = "SELECT * FROM posts WHERE user_id = ?"
+  let postsByUserValues = [userId];
+  postsByUser = mysql.format(postsByUser, postsByUserValues);
+  dataBaseConnection.query(postsByUser, function(error, result) {
+    if (error) {
+      return res.status(400).json({error: "Impossible de récupérer les posts de l'utilisateur"})
+    } else {
+      return res.status(200).json({message: "Récupération réussie !"})
+    }
+  });
+}
+
+
+
+
+exports.likePost = (req, res, next) => {
+  const token = req.headers.authorization.split(' ')[1]; //On récupère l'id utilisateur dans le token
+  const decodedToken = jwt.verify(token,`${TOKEN}`);
+  const userId = decodedToken.userId;
+  const like = req.body.like;
+  if (like === 1) {
+    
+  }
+}
+
+

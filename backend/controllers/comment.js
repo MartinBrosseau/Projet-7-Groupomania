@@ -6,6 +6,8 @@ const TOKEN = process.env.TOKEN;
 
 
 
+
+
 exports.createComment = (req, res, next) => {
   const token = req.headers.authorization.split(' ')[1]; //On récupère l'id utilisateur dans le token
   const decodedToken = jwt.verify(token,`${TOKEN}`);
@@ -26,6 +28,8 @@ exports.createComment = (req, res, next) => {
 };
 
 
+
+
 exports.modifyComment = (req, res, next) => {
   const token = req.headers.authorization.split(' ')[1]; //On récupère l'id utilisateur dans le token
   const decodedToken = jwt.verify(token,`${TOKEN}`);
@@ -44,6 +48,8 @@ exports.modifyComment = (req, res, next) => {
       }
   });
 };
+
+
 
 
 exports.deleteComment = (req, res, next) => {

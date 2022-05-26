@@ -5,6 +5,9 @@ const mysql = require('mysql2');//Pour intéragir avec notre base de donnée
 const dataBaseConnection = require('../config/dataBase');
 const TOKEN = process.env.TOKEN;
 
+
+
+
 //Création d'un nouvel utilisateur
 exports.signup = (req, res, next) => {
   const userUsername = req.body.username;
@@ -33,6 +36,7 @@ exports.signup = (req, res, next) => {
     })
     .catch(error => res.status(500).json({ error }));    
 };
+
 
 
 
@@ -67,6 +71,8 @@ exports.login = (req, res, next) => {
 };
 
 
+
+
 exports.userProfil = (req, res, next) => {
   const token = req.headers.authorization.split(' ')[1]; //On récupère l'id utilisateur dans le token
   const decodedToken = jwt.verify(token,`${TOKEN}`);
@@ -90,6 +96,28 @@ exports.userProfil = (req, res, next) => {
     return res.status(400).json({ error: "Vous n'êtes pas autorisé a faire cela !"})
   }
 };
+
+
+
+
+exports.modifyUserProfil = (req, res, next) => {
+  const token = req.headers.authorization.split(' ')[1]; //On récupère l'id utilisateur dans le token
+  const decodedToken = jwt.verify(token,`${TOKEN}`);
+  const userId = decodedToken.userId;
+  const newUsername = req.body.username;
+  let updateProfile = "UPDATE users SET username = ? WHERE id = ?";
+  let updateProfileValues = [newUsername, userId];
+  updateProfile = mysql.format(updateProfile, updateProfileValues);
+  dataBaseConnection.query(updateProfile, function(error, result) {
+    if (error) {
+      return res.status(400).json({error: "Modification impossible"})
+    } else {
+      return res.status(200).json({message: "Modification effectuée !"})
+    }
+  });
+}
+
+
 
 
 exports.deleteUser = (req, res, next) => {
