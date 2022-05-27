@@ -23,5 +23,6 @@ router.put('/modifyPost', auth, multer, postCtrl.modifyPost);
 router.delete('/deletePost', auth, multer, postCtrl.deletePost);
 
 //route post : likePost
+router.post('/likePost', auth, postCtrl.likePost);
 
 module.exports = router;

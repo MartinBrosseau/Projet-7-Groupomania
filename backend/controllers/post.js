@@ -20,7 +20,7 @@ exports.createPost = (req, res, next) => {
     imgUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
   }
 
-  let savePost = "INSERT INTO posts (user_id, description, image, title) VALUES (userId, postDescription, imgUrl, postTitle)";
+  let savePost = "INSERT INTO posts (user_id, description, image, title) VALUES (?, ? ?, ?)";
   let savePostValues = [userId, postDescription, imgUrl, postTitle];
   savePost = mysql.format(savePost, savePostValues);
   dataBaseConnection.query(savePost, function(error, result) {
@@ -209,8 +209,40 @@ exports.likePost = (req, res, next) => {
   const decodedToken = jwt.verify(token,`${TOKEN}`);
   const userId = decodedToken.userId;
   const like = req.body.like;
+  const postId = req.body.id;
+  let alreadyliked = "SELECT * FROM likes WHERE userId = ? AND postId = ?";
+  let alreadylikedValues = [userId, postId];
+  alreadyliked = mysql.format(alreadyliked, alreadylikedValues);
   if (like === 1) {
-    
+    if (alreadyliked === NULL) { //On vérifie que l'utilisateur n'a pas déja like le post
+      let addLike = "INSERT INTO likes (userId, postId) VALUES (?, ?)";
+      let addlikeValues = [userId, postId];
+      addLike = mysql.format(addLike, addlikeValues);
+      dataBaseConnection.query(addLike, function(error, result) {
+        if (error) {
+          return res.status(400).json({error: "Impossible de like le post"})
+        } else {
+          return resizeTo.status(200).json({message: "Like ajouté !"})
+        }
+      });
+    } else {
+      return res.status(402).json({error: "Vous avez déja like ce post"})
+    }
+  }
+  if (like === 0) {
+    if (alreadyliked !== NULL) {
+      let deleteLike = "DELETE FROM likes (userId, postId) VALUES (?, ?)";
+      let deleteLikeValues = [userId, postId];
+      deleteLike = mysql.format(deleteLike, function(error, result) {
+        if (error) {
+          return res.status(400).json({error: "Annulation du like impossible"})
+        } else {
+          return res.status(200).json({message: "Like supprimé !"})
+        }
+      });
+    } else {
+      return res.status(402).json({error: "Impossible de supprimer un like car inexistant"})
+    }
   }
 }
 
