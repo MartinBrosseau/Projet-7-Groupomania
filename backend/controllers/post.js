@@ -233,7 +233,8 @@ exports.likePost = (req, res, next) => {
     if (alreadyliked !== NULL) {
       let deleteLike = "DELETE FROM likes (userId, postId) VALUES (?, ?)";
       let deleteLikeValues = [userId, postId];
-      deleteLike = mysql.format(deleteLike, function(error, result) {
+      deleteLike = mysql.format(deleteLike,deleteLikeValues);
+      dataBaseConnection.query(deleteLike, function(error, result) {
         if (error) {
           return res.status(400).json({error: "Annulation du like impossible"})
         } else {
