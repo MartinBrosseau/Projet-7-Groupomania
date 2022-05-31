@@ -214,7 +214,7 @@ exports.likePost = (req, res, next) => {
   let alreadylikedValues = [userId, postId];
   alreadyliked = mysql.format(alreadyliked, alreadylikedValues);
   if (like === 1) {
-    if (alreadyliked === NULL) { //On vérifie que l'utilisateur n'a pas déja like le post
+    if (alreadyliked === null) { //On vérifie que l'utilisateur n'a pas déja like le post
       let addLike = "INSERT INTO likes (userId, postId) VALUES (?, ?)";
       let addlikeValues = [userId, postId];
       addLike = mysql.format(addLike, addlikeValues);
@@ -222,7 +222,7 @@ exports.likePost = (req, res, next) => {
         if (error) {
           return res.status(400).json({error: "Impossible de like le post"})
         } else {
-          return resizeTo.status(200).json({message: "Like ajouté !"})
+          return res.status(200).json({message: "Like ajouté !"})
         }
       });
     } else {
@@ -230,7 +230,7 @@ exports.likePost = (req, res, next) => {
     }
   }
   if (like === 0) {
-    if (alreadyliked !== NULL) {
+    if (alreadyliked !== null) {
       let deleteLike = "DELETE FROM likes (userId, postId) VALUES (?, ?)";
       let deleteLikeValues = [userId, postId];
       deleteLike = mysql.format(deleteLike,deleteLikeValues);
