@@ -1,6 +1,6 @@
 import React from "react";
 
-const Home = () => {
+const Connection = () => {
   return (
     <div>
       <h1>Accueil</h1>
@@ -8,4 +8,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Connection;
