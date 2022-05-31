@@ -1,10 +1,17 @@
 import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Connection from "./pages/Connection";
+import Home from "./pages/Home";
 
 const App = () => {
   return (
-    <div>
-      <h1>hello</h1>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Connection />} />
+        <Route path="/" element={<Home />} />
+        <Route path="*" element={<Connection />} />
+      </Routes>
+    </BrowserRouter>
   );
 };
 
