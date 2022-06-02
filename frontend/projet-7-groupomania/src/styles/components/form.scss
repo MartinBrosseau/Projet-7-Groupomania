@@ -1,0 +1,38 @@
+.form {
+    margin: 50px;
+    @include verticalCenter;
+    label {
+        font-family: $font-bold;
+        font-size: 20px;
+        @include verticalCenter;
+        margin-bottom: 25px;
+        input {
+            padding: 5px;
+            font-size: 15px;
+            margin-top: 15px;
+            background-color: #606060;
+            color: $color-2;
+            &::placeholder {
+                color: #909090;
+                font-size: 15px;
+            }
+        }
+    }
+    button {
+        margin-top: 25px;;
+        font-family: $font-bold;
+        font-size: 25px;
+        padding: 10px;
+        color: $color-1;
+        transition: 0.2s;
+        background-color: #606060;
+        &:hover {
+            cursor: pointer;
+            color: $color-3;
+        }
+
+    }
+}
+  
+    
+  

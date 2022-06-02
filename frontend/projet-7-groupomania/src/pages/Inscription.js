@@ -1,14 +1,14 @@
 import React from "react";
 import Navigation from "../components/Navigation";
-import LoginForm from "../components/LoginForm";
+import SignupForm from "../components/SignupForm";
 
-const Connection = () => {
+const Inscription = () => {
   return (
     <div>
       <Navigation />
-      <LoginForm />
+      <SignupForm />
     </div>
   );
 };
 
-export default Connection;
+export default Inscription;
