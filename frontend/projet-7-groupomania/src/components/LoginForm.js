@@ -1,6 +1,8 @@
 import React from "react";
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 //react conttext useContext
 const LoginForm = () => {
   let [loginInfos, setLoginInfos] = useState({
@@ -19,13 +21,17 @@ const LoginForm = () => {
     });
   };
 
+  const navigate = useNavigate();
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = loginInfos;
     axios
       .post(`http://localhost:3000/api/auth/login`, { ...data })
-      .then((res) => {
-        console.log(res);
+      .then(function (res) {
+        if (res.status === 200) {
+          navigate("/homepage");
+        }
       });
   };
 

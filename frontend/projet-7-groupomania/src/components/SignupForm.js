@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const SignupForm = () => {
   let [signupInfos, setSignupInfos] = useState({
@@ -10,8 +11,7 @@ const SignupForm = () => {
   });
 
   const handleChange = (event) => {
-    let value = event.target.value;
-    let name = event.target.name;
+    const { value, name } = event.target;
 
     setSignupInfos((prevalue) => {
       return {
@@ -21,13 +21,17 @@ const SignupForm = () => {
     });
   };
 
+  const navigate = useNavigate();
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = signupInfos;
     axios
       .post(`http://localhost:3000/api/auth/signup`, { ...data })
-      .then((res) => {
-        console.log(res);
+      .then(function (res) {
+        if (res.status === 201) {
+          navigate("/homepage");
+        }
       });
   };
 
