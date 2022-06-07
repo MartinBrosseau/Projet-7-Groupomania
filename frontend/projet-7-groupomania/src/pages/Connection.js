@@ -4,7 +4,7 @@ import LoginForm from "../components/LoginForm";
 
 const Connection = () => {
   return (
-    <div>
+    <div className="form-nav">
       <Navigation />
       <LoginForm />
     </div>

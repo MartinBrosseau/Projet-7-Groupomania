@@ -37,41 +37,54 @@ const SignupForm = () => {
 
   return (
     <div>
-      <form action="post" className="form">
-        <label htmlFor="username">
-          Nom d'utilisateur
-          <input
-            type="text"
-            onChange={handleChange}
-            id="username"
-            name="username"
-            placeholder="Votre username"
-          />
-        </label>
+      <form className="form" action="post">
+        <div className="form-group">
+          <label htmlFor="username">
+            Nom d'utilisateur
+            <input
+              className="form-control"
+              type="text"
+              onChange={handleChange}
+              id="username"
+              name="username"
+              placeholder="username ex: Martin"
+            />
+          </label>
+        </div>
 
-        <label htmlFor="email">
-          Adresse email
-          <input
-            type="email"
-            onChange={handleChange}
-            id="email"
-            name="email"
-            placeholder="myemail@mail.com"
-          />
-        </label>
+        <div className="form-group">
+          <label htmlFor="email">
+            Adresse email
+            <input
+              className="form-control"
+              type="email"
+              onChange={handleChange}
+              id="email"
+              name="email"
+              placeholder="email ex: martin@gmail.com"
+            />
+          </label>
+        </div>
 
-        <label htmlFor="password">
-          Mot de passe
-          <input
-            type="password"
-            onChange={handleChange}
-            name="password"
-            id="password"
-            placeholder="password"
-          />
-        </label>
+        <div className="form-group">
+          <label htmlFor="password">
+            Mot de passe
+            <input
+              className="form-control"
+              type="password"
+              onChange={handleChange}
+              name="password"
+              id="password"
+              placeholder="mot de passe"
+            />
+          </label>
+        </div>
 
-        <button type="submit" onClick={handleSubmit}>
+        <button
+          className="btn btn-primary btn-lg"
+          type="submit"
+          onClick={handleSubmit}
+        >
           Inscription
         </button>
       </form>

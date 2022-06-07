@@ -37,30 +37,40 @@ const LoginForm = () => {
 
   return (
     <div>
-      <form action="post" className="form">
-        <label htmlFor="email">
-          Adresse email
-          <input
-            type="email"
-            onChange={handleChange}
-            id="email"
-            name="email"
-            placeholder="myemail@mail.com"
-          />
-        </label>
+      <form className="form" action="post">
+        <div className="form-group">
+          <label htmlFor="email">
+            Adresse email
+            <input
+              className="form-control"
+              type="email"
+              onChange={handleChange}
+              id="email"
+              name="email"
+              placeholder="myemail@mail.com"
+            />
+          </label>
+        </div>
 
-        <label htmlFor="password">
-          Mot de passe
-          <input
-            type="password"
-            onChange={handleChange}
-            name="password"
-            id="password"
-            placeholder="password"
-          />
-        </label>
+        <div className="form-group">
+          <label htmlFor="password">
+            Mot de passe
+            <input
+              className="form-control"
+              type="password"
+              onChange={handleChange}
+              name="password"
+              id="password"
+              placeholder="mot de passe"
+            />
+          </label>
+        </div>
 
-        <button type="submit" onClick={handleSubmit}>
+        <button
+          className="btn btn-primary btn-lg"
+          type="submit"
+          onClick={handleSubmit}
+        >
           Connexion
         </button>
       </form>

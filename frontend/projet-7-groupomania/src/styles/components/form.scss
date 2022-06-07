@@ -1,38 +1,19 @@
-.form {
-    margin: 50px;
+.form-nav {
     @include verticalCenter;
-    label {
-        font-family: $font-bold;
-        font-size: 20px;
-        @include verticalCenter;
-        margin-bottom: 25px;
-        input {
-            padding: 5px;
-            font-size: 15px;
-            margin-top: 15px;
-            background-color: #606060;
-            color: $color-2;
-            &::placeholder {
-                color: #909090;
-                font-size: 15px;
-            }
-        }
-    }
-    button {
-        margin-top: 25px;;
-        font-family: $font-bold;
-        font-size: 25px;
-        padding: 10px;
-        color: $color-1;
-        transition: 0.2s;
-        background-color: #606060;
-        &:hover {
-            cursor: pointer;
-            color: $color-3;
-        }
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
+    margin-top: 100px;
+}
 
+.form {
+    margin-bottom: 50px;
+    margin-top: 25px;
+    label {
+        font-size: 15px;
+        font-family: $font-reg;
+    }  
+    .form-control {
+        font-weight: 200;
+        font-style: italic;
     }
 }
-  
-    
-  
+

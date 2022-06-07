@@ -1,57 +1,64 @@
 
-  @font-face {
-    font-family: "font-reg";
-    src: url(../assets/fonts/Lato-Regular.ttf);
-  }
-  $font-reg: "font-reg", sans-serif;
+@font-face {
+  font-family: "font-reg";
+  src: url(../assets/fonts/Lato-Regular.ttf);
+}
+$font-reg: "font-reg", sans-serif;
 
-  @font-face {
-    font-family: "font-thin";
-    src: url(../assets/fonts/Lato-Thin.ttf);
-  }
-  $font-thin: "font-thin", sans-serif;
+@font-face {
+  font-family: "font-thin";
+  src: url(../assets/fonts/Lato-Thin.ttf);
+}
+$font-thin: "font-thin", sans-serif;
 
-  @font-face {
-    font-family: "font-bold";
-    src: url(..//assets/fonts/Lato-Bold.ttf);
-  }
-  $font-bold: "font-bold", sans-serif;
+@font-face {
+  font-family: "font-bold";
+  src: url(..//assets/fonts/Lato-Bold.ttf);
+}
+$font-bold: "font-bold", sans-serif;
 
-  $color-1:  #FD2D01;
-  $color-2: #FFD7D7;
-  $color-3: #4E5166;
-  $background-color: #303030;
-  
-  @mixin verticalCenter {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
+$color-1:  #FD2D01;
+$color-2: #FFD7D7;
+$color-3: #4E5166;
+$background-color: #F8F8FF;
 
-  @mixin verticalLeft {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-  }
+@mixin verticalCenter {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 
-  @mixin rowCenter {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-  }
-  
-  * {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-  }
-  
-  body {
-    background: $background-color;
-    font-family: $font-reg;
-  }
-  li {
-    list-style-type: none;
-  }
+@mixin verticalLeft {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+@mixin rowCenter {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: $background-color;
+  font-family: $font-reg;
+  max-width: 80%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  border-left: 2px black;
+  margin: auto;
+
+}
+li {
+  list-style-type: none;
+}

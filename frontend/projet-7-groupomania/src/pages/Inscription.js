@@ -4,7 +4,7 @@ import SignupForm from "../components/SignupForm";
 
 const Inscription = () => {
   return (
-    <div>
+    <div className="form-nav">
       <Navigation />
       <SignupForm />
     </div>
