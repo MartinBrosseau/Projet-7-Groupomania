@@ -34,8 +34,8 @@ const LoginForm = () => {
       .then(function (res) {
         if (res.status === 200) {
           setUser(res.data.token);
-          navigate("/homepage");
           console.log(user);
+          navigate("/homepage");
         }
       });
   };

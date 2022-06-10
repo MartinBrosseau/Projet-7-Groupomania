@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "./UserContext";
 
 const SignupForm = () => {
+  const { user, setUser } = useContext(UserContext);
+
   const [signupInfos, setSignupInfos] = useState({
     username: "",
     email: "",
@@ -30,6 +33,8 @@ const SignupForm = () => {
       .post(`http://localhost:3000/api/auth/signup`, { ...data })
       .then(function (res) {
         if (res.status === 201) {
+          setUser(res.data.token);
+          console.log(user);
           navigate("/homepage");
         }
       });

@@ -13,7 +13,7 @@
         font-size: 15px;
         font-family: $font-reg;
     }  
-    .form-control {
+    .form-control::placeholder {
         font-weight: 200;
         font-style: italic;
     }
