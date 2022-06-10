@@ -30,7 +30,15 @@ exports.signup = (req, res, next) => {
                 .status(401)
                 .json({ error: "Adresse mail déja utilisée !" });
             } else {
-              return res.status(201).json({ message: "Utilisateur crée !" });
+              return res.status(201).json({
+                userId: result[0].id,
+                isAdmin: result[0].admin,
+                token: jwt.sign(
+                  { userId: result[0].id, isAdmin: result[0].admin },
+                  `${TOKEN}`,
+                  { expiresIn: "24h" }
+                ),
+              });
             }
           });
         }

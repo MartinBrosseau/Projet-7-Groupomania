@@ -1,9 +1,11 @@
 .header {
     @include rowCenter;
     border-bottom: 1px solid $color-3;
+    max-width: 50%;
+    margin: auto;
     img{
         margin-bottom: 25px;
         margin-top: 25px;
-        max-width: 75%;
+        max-width: 50%;
     }
 }

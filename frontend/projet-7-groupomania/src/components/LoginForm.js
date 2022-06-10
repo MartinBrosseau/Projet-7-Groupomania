@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "./UserContext";
 
 //react conttext useContext
 const LoginForm = () => {
+  const { user, setUser } = useContext(UserContext);
+
   let [loginInfos, setLoginInfos] = useState({
     email: "",
     password: "",
@@ -30,7 +33,9 @@ const LoginForm = () => {
       .post(`http://localhost:3000/api/auth/login`, { ...data })
       .then(function (res) {
         if (res.status === 200) {
+          setUser(res.data.token);
           navigate("/homepage");
+          console.log(user);
         }
       });
   };
@@ -70,6 +75,10 @@ const LoginForm = () => {
           className="btn btn-primary btn-lg"
           type="submit"
           onClick={handleSubmit}
+          {...() => {
+            const user = handleSubmit();
+            setUser(user);
+          }}
         >
           Connexion
         </button>

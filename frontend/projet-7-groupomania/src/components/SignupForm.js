@@ -4,7 +4,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const SignupForm = () => {
-  let [signupInfos, setSignupInfos] = useState({
+  const [signupInfos, setSignupInfos] = useState({
     username: "",
     email: "",
     password: "",
@@ -47,7 +47,7 @@ const SignupForm = () => {
               onChange={handleChange}
               id="username"
               name="username"
-              placeholder="username ex: Martin"
+              placeholder="ex: Martin"
             />
           </label>
         </div>
@@ -61,7 +61,7 @@ const SignupForm = () => {
               onChange={handleChange}
               id="email"
               name="email"
-              placeholder="email ex: martin@gmail.com"
+              placeholder="ex: martin@gmail.com"
             />
           </label>
         </div>
