@@ -1,18 +1,16 @@
-import React, { useMemo } from "react";
+import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Connection from "./pages/Connection";
 import Homepage from "./pages/Homepage";
 import Inscription from "./pages/Inscription";
 import NewPost from "./pages/NewPost";
 import UserProfil from "./pages/UserProfil";
-import { useState } from "react";
-import { UserContext } from "./components/UserContext";
+import { UserTokenComponent } from "./components/UserToken";
 
+//high order component
 const App = () => {
-  const [user, setUser] = useState(null);
-  const value = useMemo(() => ({ user, setUser }), [user, setUser]);
   return (
-    <UserContext.Provider value={value}>
+    <UserTokenComponent>
       <BrowserRouter>
         <Routes>
           <Route path="/connection" element={<Connection />} />
@@ -23,7 +21,7 @@ const App = () => {
           <Route path="/userprofil" element={<UserProfil />} />
         </Routes>
       </BrowserRouter>
-    </UserContext.Provider>
+    </UserTokenComponent>
   );
 };
 

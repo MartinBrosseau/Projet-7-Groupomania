@@ -2,7 +2,13 @@ import React from "react";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { UserToken } from "../components/UserToken";
+import { useContext } from "react";
+
 const NewPost = () => {
+  const navigate = useNavigate();
+  const { token } = useContext(UserToken);
+
   const [postInfos, setPostInfos] = useState({
     title: "",
     image: "",
@@ -20,17 +26,19 @@ const NewPost = () => {
     });
   };
 
-  const navigate = useNavigate();
-
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = postInfos;
     axios
-      .post(`http://localhost:3000/api/post/createPost`, { ...data })
+      .post(
+        `http://localhost:3000/api/post/createPost`,
+        {
+          ...data,
+        },
+        { headers: { authorization: `Bearer ${token}` } }
+      )
       .then(function (res) {
-        if (res.status === 201) {
-          navigate("/homepage");
-        }
+        navigate("/homepage");
       });
   };
 

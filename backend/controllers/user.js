@@ -82,38 +82,26 @@ exports.login = (req, res, next) => {
 };
 
 exports.userProfil = (req, res, next) => {
-  const token = req.headers.authorization.split(" ")[1]; //On récupère l'id utilisateur dans le token
-  const decodedToken = jwt.verify(token, `${TOKEN}`);
-  const userId = decodedToken.userId;
   //Récuperation de l'utilisateur grâce a son token fournit lors de la connection
-  if (Number(req.paramq.id) === userId) {
-    let getUser = "SELECT username, email FROM users WHERE id = ?";
-    let getUserValues = [userId];
-    getUser = mysql.format(getUser, getUserValues);
-    dataBaseConnection.query(getUser, function (error, result) {
-      if (result === "" || result == undefined) {
-        return res.status(400).json({ error: "Utilisateur introuvable !" });
-      } else {
-        return res.status(200).json({
-          username: result[0].username,
-          email: result[0].email,
-        });
-      }
-    });
-  } else {
-    return res
-      .status(400)
-      .json({ error: "Vous n'êtes pas autorisé a faire cela !" });
-  }
+  let getUser = "SELECT username, email FROM users WHERE id = ?";
+  let getUserValues = [req.auth.userId];
+  getUser = mysql.format(getUser, getUserValues);
+  dataBaseConnection.query(getUser, function (error, result) {
+    if (result === "" || result == undefined) {
+      return res.status(400).json({ error: "Utilisateur introuvable !" });
+    } else {
+      return res.status(200).json({
+        username: result[0].username,
+        email: result[0].email,
+      });
+    }
+  });
 };
 
 exports.modifyUserProfil = (req, res, next) => {
-  const token = req.headers.authorization.split(" ")[1]; //On récupère l'id utilisateur dans le token
-  const decodedToken = jwt.verify(token, `${TOKEN}`);
-  const userId = decodedToken.userId;
   const newUsername = req.body.username;
   let updateProfile = "UPDATE users SET username = ? WHERE id = ?";
-  let updateProfileValues = [newUsername, userId];
+  let updateProfileValues = [newUsername, req.auth.userId];
   updateProfile = mysql.format(updateProfile, updateProfileValues);
   dataBaseConnection.query(updateProfile, function (error, result) {
     if (error) {
@@ -125,14 +113,10 @@ exports.modifyUserProfil = (req, res, next) => {
 };
 
 exports.deleteUser = (req, res, next) => {
-  const token = req.headers.authorization.split(" ")[1]; //On récupère l'id utilisateur dans le token
-  const decodedToken = jwt.verify(token, `${TOKEN}`);
-  const userId = decodedToken.userId;
-
-  if (Number(req.params.id) === userId) {
+  if (req.params.id === req.auth.userId) {
     let deleteUser = "DELETE FROM users WHERE id = ?";
-    let deleteUserValues = [userId];
-    deleteUser = myssql.format(deleteUser, deleteUserValues);
+    let deleteUserValues = [req.auth.userId];
+    deleteUser = mysql.format(deleteUser, deleteUserValues);
     dataBaseConnection.query(deleteUser, function (error, result) {
       if (error) {
         return res.status(400).json({ error: "La suppression a échouée !" });

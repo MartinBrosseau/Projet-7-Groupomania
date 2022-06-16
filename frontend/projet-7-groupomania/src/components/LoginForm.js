@@ -2,11 +2,11 @@ import React, { useContext } from "react";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { UserContext } from "./UserContext";
+import { UserToken } from "./UserToken";
 
 //react conttext useContext
 const LoginForm = () => {
-  const { user, setUser } = useContext(UserContext);
+  const { token, setToken } = useContext(UserToken);
 
   let [loginInfos, setLoginInfos] = useState({
     email: "",
@@ -30,13 +30,11 @@ const LoginForm = () => {
     event.preventDefault();
     const data = loginInfos;
     axios
-      .post(`http://localhost:3000/api/auth/login`, { ...data })
+      .post(`http://localhost:3000/api/auth/login`, { ...data }) //.catch
       .then(function (res) {
-        if (res.status === 200) {
-          setUser(res.data.token);
-          console.log(user);
-          navigate("/homepage");
-        }
+        setToken(res.data.token);
+        console.log(token);
+        navigate("/homepage");
       });
   };
 
@@ -76,8 +74,8 @@ const LoginForm = () => {
           type="submit"
           onClick={handleSubmit}
           {...() => {
-            const user = handleSubmit();
-            setUser(user);
+            const token = handleSubmit();
+            setToken(token);
           }}
         >
           Connexion

@@ -2,10 +2,10 @@ import React, { useContext } from "react";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { UserContext } from "./UserContext";
+import { UserToken } from "./UserToken";
 
 const SignupForm = () => {
-  const { user, setUser } = useContext(UserContext);
+  const { token, setToken } = useContext(UserToken);
 
   const [signupInfos, setSignupInfos] = useState({
     username: "",
@@ -32,11 +32,9 @@ const SignupForm = () => {
     axios
       .post(`http://localhost:3000/api/auth/signup`, { ...data })
       .then(function (res) {
-        if (res.status === 201) {
-          setUser(res.data.token);
-          console.log(user);
-          navigate("/homepage");
-        }
+        setToken(res.data.token);
+        console.log(token);
+        navigate("/homepage");
       });
   };
 
