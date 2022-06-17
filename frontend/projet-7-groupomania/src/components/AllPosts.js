@@ -13,7 +13,7 @@ const AllPosts = () => {
       .get("http://localhost:3000/api/post/getAllPosts", {
         headers: { authorization: `Bearer ${token}` },
       })
-      .then((res) => setAllPosts[res.data]);
+      .then((res) => setAllPosts(res.data));
   }, [token]);
 
   return (

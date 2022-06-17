@@ -1,8 +1,6 @@
 require("dotenv").config();
-const jwt = require("jsonwebtoken"); //Jsonwebtoken attribue un token a un utilisateur lorsqu'il se connecte
 const mysql = require("mysql2"); //Pour intéragir avec notre base de donnée
 const dataBaseConnection = require("../config/dataBase");
-const TOKEN = process.env.TOKEN;
 const fs = require("fs");
 
 exports.createPost = (req, res, next) => {
@@ -155,7 +153,7 @@ exports.deletePost = (req, res, next) => {
 };
 
 exports.getAllPosts = (req, res, next) => {
-  let allPosts = "SELECT title, imageUrl, description FROM posts";
+  let allPosts = "SELECT * FROM posts";
   allPosts = mysql.format(allPosts);
   dataBaseConnection.query(allPosts, function (error, result) {
     if (error) {
@@ -163,9 +161,7 @@ exports.getAllPosts = (req, res, next) => {
         .status(400)
         .json({ error: "Impossible de récupérer les posts" });
     } else {
-      return res
-        .status(200)
-        .json({ message: "Récupération des posts réussie" });
+      return res.status(200).json(result);
     }
   });
 };
@@ -179,7 +175,7 @@ exports.getOnePost = (req, res, next) => {
     if (error) {
       return res.status(400).json({ error: "Impossible de récupérer ce post" });
     } else {
-      return res.status(200).json({ message: "Récupération du post réussie" });
+      return res.status(200).json(result);
     }
   });
 };
@@ -194,7 +190,7 @@ exports.getPostsByUser = (req, res, next) => {
         .status(400)
         .json({ error: "Impossible de récupérer les posts de l'utilisateur" });
     } else {
-      return res.status(200).json({ message: "Récupération réussie !" });
+      return res.status(200).json(result);
     }
   });
 };

@@ -1,0 +1,10 @@
+.userProfil {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    .userOptions {
+        display: flex;
+        flex-direction: column;
+    }
+    
+}

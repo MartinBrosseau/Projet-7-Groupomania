@@ -31,6 +31,7 @@ exports.signup = (req, res, next) => {
                 .json({ error: "Adresse mail déja utilisée !" });
             } else {
               return res.status(201).json({
+                message: console.log(result),
                 userId: result[0].id,
                 isAdmin: result[0].admin,
                 token: jwt.sign(
@@ -83,7 +84,7 @@ exports.login = (req, res, next) => {
 
 exports.userProfil = (req, res, next) => {
   //Récuperation de l'utilisateur grâce a son token fournit lors de la connection
-  let getUser = "SELECT username, email FROM users WHERE id = ?";
+  let getUser = "SELECT username, email, id FROM users WHERE id = ?";
   let getUserValues = [req.auth.userId];
   getUser = mysql.format(getUser, getUserValues);
   dataBaseConnection.query(getUser, function (error, result) {
@@ -93,6 +94,7 @@ exports.userProfil = (req, res, next) => {
       return res.status(200).json({
         username: result[0].username,
         email: result[0].email,
+        id: result[0].id,
       });
     }
   });
@@ -114,7 +116,7 @@ exports.modifyUserProfil = (req, res, next) => {
 
 exports.deleteUser = (req, res, next) => {
   if (req.params.id === req.auth.userId) {
-    let deleteUser = "DELETE FROM users WHERE id = ?";
+    let deleteUser = "DELETE * FROM users WHERE id = ?";
     let deleteUserValues = [req.auth.userId];
     deleteUser = mysql.format(deleteUser, deleteUserValues);
     dataBaseConnection.query(deleteUser, function (error, result) {

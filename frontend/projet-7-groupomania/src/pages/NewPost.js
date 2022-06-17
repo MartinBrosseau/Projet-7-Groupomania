@@ -11,7 +11,7 @@ const NewPost = () => {
 
   const [postInfos, setPostInfos] = useState({
     title: "",
-    image: "",
+    imageUrl: "",
     description: "",
   });
 
@@ -57,13 +57,13 @@ const NewPost = () => {
         </div>
 
         <div className="form-group">
-          <label htmlFor="image">Insérer une image</label>
+          <label htmlFor="imageUrl">Insérer une image</label>
           <input
             type="file"
             className="form-control"
             onChange={handleChange}
-            id="image"
-            name="image"
+            id="imageUrl"
+            name="imageUrl"
           />
         </div>
 

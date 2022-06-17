@@ -1,4 +1,42 @@
 .post-card {
     display: flex;
     flex-direction: column;
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
+    border: 2px solid $color-2;
+    background-color: #F8F8FF;
+    border-radius: 10px;
+    margin: 10px;
+    .post-header {
+        margin: 15px;
+        display: flex;
+        justify-content: row;
+        margin-bottom: 0px;
+        &__options {
+            display: flex;
+            flex-direction: row-reverse;
+            margin-bottom: 0px;
+            margin-top: 10px;
+            margin-left: auto;
+            .icone-option {     
+                display: flex;
+                padding: 5px;
+                color: $color-1;
+                background-color: $color-3;
+                transition: 0.5s ease;
+                &:hover {
+                    color: $color-3;
+                    background-color: $color-1;
+                }
+            }
+        }
+        &__user {
+            font-family: $font-bold;
+        }
+        &__title {
+            margin-left: 15px;
+        }
+    }
+    .post-body {
+        margin: 15px;
+    }
 }
