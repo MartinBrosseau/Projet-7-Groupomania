@@ -24,7 +24,7 @@ exports.createPost = (req, res, next) => {
 };
 
 exports.modifyPost = (req, res, next) => {
-  const postId = req.params.id;
+  const postId = req.query.postId;
   const postImg = req.file;
   const postTitle = req.body.title;
   const postDescription = req.body.description;
@@ -76,12 +76,14 @@ exports.modifyPost = (req, res, next) => {
 };
 
 exports.deletePost = (req, res, next) => {
+  const postId = Number(req.query.postId);
+  const postCreator = Number(req.query.postCreator);
   if (req.auth.isAdmin !== 0) {
     //Suppression par un moderateur
     let postImg = "SELECT imageUrl FROM posts where id = ?";
     let postImgValues = [postId];
     postImg = mysql.format(postImg, postImgValues);
-    let deletePost = "DELETE FROM posts WHERE id = ?";
+    let deletePost = "DELETE * FROM posts WHERE id = ?";
     let deletePostValues = [postId];
     deletePost = mysql.format(deletePost, deletePostValues);
     dataBaseConnection.query(postImg, function (error, result) {
@@ -97,7 +99,6 @@ exports.deletePost = (req, res, next) => {
         } else {
           console.log("Pas d'image");
         }
-
         dataBaseConnection.query(deletePost, function (error, result) {
           if (error) {
             return res.status(400).json({ error: "La suppression a échouée" });
@@ -109,42 +110,40 @@ exports.deletePost = (req, res, next) => {
         });
       }
     });
+  }
+  console.log(postId);
+  console.log(req.auth.userId);
+  console.log(postCreator);
+  if (req.auth.userId !== postCreator) {
+    //Suppression par le créateur du post
+    return res.status(401).json({ error: "Ce n'est pas votre post !" });
   } else {
-    let postCreator = "SELECT user_id FROM POSTS";
-    dataBaseConnection.query(postCreator, function (error, result) {
-      if (postCreator !== req.auth.userId) {
-        return res.status(401).json({ error: "Ce n'est pas votre post !" });
+    let postImg = "SELECT imageUrl FROM posts where id = ?";
+    let postImgValues = [postId];
+    postImg = mysql.format(postImg, postImgValues);
+    let deletePost = "DELETE  FROM posts WHERE posts.id = ?";
+    let deletePostValues = [postId];
+    deletePost = mysql.format(deletePost, deletePostValues);
+    dataBaseConnection.query(postImg, function (error, result) {
+      if (error) {
+        return res.status(400).json({ error: "La suppression a échouée" });
       } else {
-        //Suppression par le créateur du post
-        const postId = req.params.id;
-        let postImg = "SELECT imageUrl FROM posts where id = ?";
-        let postImgValues = [postId];
-        postImg = mysql.format(postImg, postImgValues);
-        let deletePost = "DELETE * FROM posts WHERE id = ?";
-        let deletePostValues = [postId];
-        deletePost = mysql.format(deletePost, deletePostValues);
-        dataBaseConnection.query(postImg, function (error, result) {
+        let imgUrl = result[0].imageUrl;
+        if (imgUrl !== "") {
+          const filename = imgUrl.split("/images/")[1];
+          fs.unlink(`images/${filename}`, () => {});
+        } else {
+          console.log("Pas d'image");
+        }
+        dataBaseConnection.query(deletePost, function (error, result) {
           if (error) {
-            return res.status(400).json({ error: "La suppression a échouée" });
+            return res
+              .status(400)
+              .json({ error: "La suppression du post a échouée" });
           } else {
-            let imgUrl = result[0].imageUrl;
-            if (imgUrl !== "") {
-              const filename = imgUrl.split("/images/")[1];
-              fs.unlink(`images/${filename}`, () => {});
-            } else {
-              console.log("Pas d'image");
-            }
-            dataBaseConnection.query(deletePost, function (error, result) {
-              if (error) {
-                return res
-                  .status(400)
-                  .json({ error: "La suppression du post a échouée" });
-              } else {
-                return res
-                  .status(200)
-                  .json({ message: "Post supprimé par l'utilisateur" });
-              }
-            });
+            return res
+              .status(200)
+              .json({ message: "Post supprimé par l'utilisateur" });
           }
         });
       }
@@ -153,14 +152,16 @@ exports.deletePost = (req, res, next) => {
 };
 
 exports.getAllPosts = (req, res, next) => {
-  let allPosts = "SELECT * FROM posts";
-  allPosts = mysql.format(allPosts);
+  let allPosts =
+    "SELECT posts.id, posts.user_id, description, imageUrl, title FROM posts";
   dataBaseConnection.query(allPosts, function (error, result) {
     if (error) {
+      console.log(error);
       return res
         .status(400)
         .json({ error: "Impossible de récupérer les posts" });
     } else {
+      console.log(result);
       return res.status(200).json(result);
     }
   });
@@ -197,15 +198,16 @@ exports.getPostsByUser = (req, res, next) => {
 
 exports.likePost = (req, res, next) => {
   const like = req.body.like;
-  const postId = req.body.id;
+  const postId = req.params.postId;
+  const userId = req.auth.userId;
   let alreadyliked = "SELECT * FROM likes WHERE userId = ? AND postId = ?";
   let alreadylikedValues = [req.auth.userId, postId];
   alreadyliked = mysql.format(alreadyliked, alreadylikedValues);
   dataBaseConnection.query(alreadyliked, function (error, result) {});
 
   if (like === 1 && alreadyliked === null) {
-    let addLike = "INSERT INTO likes (userId, postId) VALUES (?, ?)";
-    let addlikeValues = [req.auth.userId, postId];
+    let addLike = "INSERT INTO likes (user_id, post_id) VALUES (?, ?)";
+    let addlikeValues = [userId, postId];
     addLike = mysql.format(addLike, addlikeValues);
     dataBaseConnection.query(addLike, function (error, result) {
       if (error) {
@@ -219,8 +221,8 @@ exports.likePost = (req, res, next) => {
   }
 
   if (like === 0 && alreadyliked !== null) {
-    let deleteLike = "DELETE FROM likes (userId, postId) VALUES (?, ?)";
-    let deleteLikeValues = [req.auth.userId, postId];
+    let deleteLike = "DELETE FROM likes (user_id, post_id) VALUES (?, ?)";
+    let deleteLikeValues = [userId, postId];
     deleteLike = mysql.format(deleteLike, deleteLikeValues);
     dataBaseConnection.query(deleteLike, function (error, result) {
       if (error) {
@@ -234,4 +236,18 @@ exports.likePost = (req, res, next) => {
       .status(400)
       .json({ error: "Vous ne pouvez pas annuler ce like" });
   }
+};
+
+exports.postCreator = (req, res, next) => {
+  const userId = req.query.postUserId;
+  let getPostCreator = "SELECT username FROM users WHERE users.id = ?";
+  let getPostCreatorValues = [userId];
+  getPostCreator = mysql.format(getPostCreator, getPostCreatorValues);
+  dataBaseConnection.query(getPostCreator, function (error, result) {
+    if (error) {
+      return res.status(400).json({ message: "récupération impossible" });
+    } else {
+      return res.status(200).json(result);
+    }
+  });
 };

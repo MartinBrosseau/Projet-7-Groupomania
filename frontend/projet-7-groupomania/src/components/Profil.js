@@ -10,16 +10,6 @@ const Profil = () => {
   const [userProfil, setUserProfil] = useState([]);
   const [userPosts, setUserPosts] = useState([]);
 
-  function deleteUser() {
-    axios
-      .delete("http://localhost:3000/api/auth/deleteUser", {
-        headers: { authorization: `Bearer ${token}` },
-      })
-      .then((res) => {
-        navigate("/inscription");
-      });
-  }
-
   useEffect(() => {
     axios
       .get("http://localhost:3000/api/post/getPostsByUser", {
@@ -34,7 +24,6 @@ const Profil = () => {
         headers: { authorization: `Bearer ${token}` },
       })
       .then((res) => setUserProfil(res.data));
-    console.log(token);
   }, [token]);
 
   let [userInfos, setUserInfos] = useState({
@@ -67,6 +56,17 @@ const Profil = () => {
         navigate("/homepage");
       });
   };
+
+  function deleteUser() {
+    axios
+      .delete("http://localhost:3000/api/auth/deleteUser", {
+        headers: { authorization: `Bearer ${token}` },
+        params: { id: userProfil.id },
+      })
+      .then((res) => {
+        navigate("/inscription");
+      });
+  }
 
   return (
     <div className="Profil">
@@ -119,7 +119,7 @@ const Profil = () => {
           <h4>Vos posts :</h4>
           <div className="user-posts">
             {userPosts.map((post, index) => (
-              <PostCard key={index} post={post} />
+              <PostCard key={index} post={post} user={userProfil} />
             ))}
           </div>
         </div>

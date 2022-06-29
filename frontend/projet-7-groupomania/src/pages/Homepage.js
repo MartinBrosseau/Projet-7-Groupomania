@@ -1,5 +1,5 @@
 import { React, useEffect, useState, useContext } from "react";
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import AllPosts from "../components/AllPosts";
 import axios from "axios";
 import { UserToken } from "../components/UserToken";
@@ -14,7 +14,6 @@ const Homepage = () => {
         headers: { authorization: `Bearer ${token}` },
       })
       .then((res) => setUserProfil(res.data));
-    console.log(token);
   }, [token]);
 
   return (
@@ -26,12 +25,12 @@ const Homepage = () => {
       <div className="row">
         <div className="post-creation">
           <h4>
-            <NavLink to="/newpost">Nouveau post</NavLink>
+            <Link to="/newpost">Nouveau post</Link>
           </h4>
         </div>
         <div className="profil">
           <h4>
-            <NavLink to="/userprofil">Votre profil</NavLink>
+            <Link to="/userprofil">Votre profil</Link>
           </h4>
         </div>
       </div>

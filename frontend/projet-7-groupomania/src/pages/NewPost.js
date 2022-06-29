@@ -1,17 +1,14 @@
-import React from "react";
-import { useState } from "react";
+import React, { useRef, useContext, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { UserToken } from "../components/UserToken";
-import { useContext } from "react";
 
 const NewPost = () => {
   const navigate = useNavigate();
   const { token } = useContext(UserToken);
-
+  const imgFiled = useRef(null);
   const [postInfos, setPostInfos] = useState({
     title: "",
-    imageUrl: "",
     description: "",
   });
 
@@ -28,14 +25,18 @@ const NewPost = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = postInfos;
+    const formData = new FormData();
+    formData.append("title", postInfos.title);
+    formData.append("description", postInfos.description);
+    formData.append("image", imgFiled.current.files[0]);
     axios
       .post(
         `http://localhost:3000/api/post/createPost`,
+        formData,
+
         {
-          ...data,
-        },
-        { headers: { authorization: `Bearer ${token}` } }
+          headers: { authorization: `Bearer ${token}` },
+        }
       )
       .then(function (res) {
         navigate("/homepage");
@@ -60,6 +61,8 @@ const NewPost = () => {
           <label htmlFor="imageUrl">Insérer une image</label>
           <input
             type="file"
+            ref={imgFiled}
+            accept="image/*"
             className="form-control"
             onChange={handleChange}
             id="imageUrl"

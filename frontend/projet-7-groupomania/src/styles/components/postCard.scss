@@ -38,5 +38,40 @@
     }
     .post-body {
         margin: 15px;
+        &__container {
+            
+            &__image {
+                max-width: 400px;
+                max-height: 350px;
+                object-fit: cover;
+            }
+            
+        }
+    }
+    .post-footer {
+        margin: 15px;
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: space-between;
+        &__reaction {   
+            .like{
+                padding: 5px;
+                color: #00acee;
+                background-color: #F8F8FF;
+                border-radius: 50%;
+                border: none;
+            }
+            .comment{
+                padding: 5px;
+                color: #00acee;
+                background-color: #F8F8FF;
+                border-radius: 50%;
+                border: none;  
+            }
+            transition: 0.5, ease;
+            &:hover {
+                transform: scale(1.5);
+            }     
+        }
     }
 }

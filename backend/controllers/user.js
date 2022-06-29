@@ -18,28 +18,26 @@ exports.signup = (req, res, next) => {
         "INSERT INTO users ( username, email, password ) VALUES ( ?, ?, ? )";
       let saveUserValues = [userUsername, userEmail, hash];
       saveUser = mysql.format(saveUser, saveUserValues);
-      dataBaseConnection.query(saveUser, function (error, result) {
+      dataBaseConnection.query(saveUser, function (error, user) {
         if (error) {
-          return res.status(400).json({ error });
+          return res.status(400).json({ error: "L'inscription a échouée !" });
         } else {
           const findUser =
             "SELECT id, username FROM users WHERE email = userEmail";
           dataBaseConnection.query(findUser, function (error, result) {
-            if (result === userEmail) {
-              return res
-                .status(401)
-                .json({ error: "Adresse mail déja utilisée !" });
-            } else {
+            if (result == undefined) {
               return res.status(201).json({
-                message: console.log(result),
-                userId: result[0].id,
-                isAdmin: result[0].admin,
+                message: console.log("Utilisateur inscrit !"),
+                userId: user[0].id,
+                isAdmin: user[0].admin,
                 token: jwt.sign(
-                  { userId: result[0].id, isAdmin: result[0].admin },
+                  { userId: user[0].id, isAdmin: user[0].admin },
                   `${TOKEN}`,
                   { expiresIn: "24h" }
                 ),
               });
+            } else {
+              return res.status(401).json({ error: "Email déja utilisé !" });
             }
           });
         }
@@ -115,8 +113,10 @@ exports.modifyUserProfil = (req, res, next) => {
 };
 
 exports.deleteUser = (req, res, next) => {
-  if (req.params.id === req.auth.userId) {
-    let deleteUser = "DELETE * FROM users WHERE id = ?";
+  console.log(req.query.id);
+  console.log(req.auth.userId);
+  if (Number(req.query.id) === req.auth.userId) {
+    let deleteUser = "DELETE FROM users WHERE id = ?";
     let deleteUserValues = [req.auth.userId];
     deleteUser = mysql.format(deleteUser, deleteUserValues);
     dataBaseConnection.query(deleteUser, function (error, result) {
@@ -128,7 +128,7 @@ exports.deleteUser = (req, res, next) => {
     });
   } else {
     return res
-      .status(400)
+      .status(401)
       .json({ error: "Vous n'êtes pas autorisé a faire cela !" });
   }
 };

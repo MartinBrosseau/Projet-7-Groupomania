@@ -1,13 +1,33 @@
-import React, { useEffect, useState, useContext } from "react";
-import { faTrashCan, faPen } from "@fortawesome/free-solid-svg-icons";
+import React, { useContext } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { UserToken } from "./UserToken";
 import axios from "axios";
 
-const DeletePost = () => {
+const DeletePost = ({ postId, postCreator, setAllPosts }) => {
+  const { token } = useContext(UserToken);
+
+  const deletePost = () => {
+    axios
+      .delete("http://localhost:3000/api/post/deletePost", {
+        headers: { authorization: `Bearer ${token}` },
+        params: { postId, postCreator },
+      })
+      .then((res) => {
+        setAllPosts((oldPosts) =>
+          oldPosts.filter((post) => post.id !== postId)
+        );
+      });
+  };
+
   return (
-    <div>
-      <FontAwesomeIcon icon={faTrashCan} className="icone-option" size="lg" />
-    </div>
+    <button className="delete-post">
+      <FontAwesomeIcon
+        icon={faTrashCan}
+        className="icone-option"
+        onClick={deletePost}
+      />
+    </button>
   );
 };
 

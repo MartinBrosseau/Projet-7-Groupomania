@@ -25,4 +25,7 @@ router.delete("/deletePost", auth, multer, postCtrl.deletePost);
 //route post : likePost
 router.post("/likePost", auth, postCtrl.likePost);
 
+//route get : postCreator
+router.get("/postCreator", auth, postCtrl.postCreator);
+
 module.exports = router;
