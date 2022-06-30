@@ -24,15 +24,21 @@ exports.createPost = (req, res, next) => {
 };
 
 exports.modifyPost = (req, res, next) => {
-  const postId = req.query.postId;
+  const postId = req.query.currentPostId;
+  const userId = req.auth.userId;
+  console.log(userId);
+  console.log(postId);
   const postImg = req.file;
   const postTitle = req.body.title;
   const postDescription = req.body.description;
   let imgUrl = "";
 
-  let postCreator = "SELECT user_id FROM POSTS";
+  let postCreator = "SELECT user_id FROM posts WHERE posts.id = ?";
+  let postCreatorValues = [postId];
+  postCreator = mysql.format(postCreator, postCreatorValues);
   dataBaseConnection.query(postCreator, function (error, result) {
-    if (postCreator !== req.auth.userId) {
+    console.log(result[0].user_id);
+    if (result[0].user_id !== userId) {
       return res.status(401).json({ error: "Ce n'est pas votre post !" });
     } else {
       if (postImg) {

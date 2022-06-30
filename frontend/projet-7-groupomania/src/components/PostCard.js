@@ -1,11 +1,11 @@
 import React from "react";
 import DeletePost from "./DeletePost";
-import NewComment from "./NewComment";
+import Comments from "./Comments";
 import LikePost from "./LikePost";
 import PostCreator from "./PostCreator";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPen } from "@fortawesome/free-solid-svg-icons";
-import { NavLink } from "react-router-dom";
+import { faPen, faComment } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
 
 const PostCard = ({ post, user, setAllPosts }) => {
   return (
@@ -25,13 +25,22 @@ const PostCard = ({ post, user, setAllPosts }) => {
               setAllPosts={setAllPosts}
             />
           )}
-          <button className="options">
-            {post.user_id === user.id && (
-              <NavLink to="/modifypost">
+
+          {post.user_id === user.id && (
+            <button className="options">
+              <Link
+                to="/modifypost"
+                state={{
+                  title: post.title,
+                  img: post.imageUrl,
+                  description: post.description,
+                  postId: post.id,
+                }}
+              >
                 <FontAwesomeIcon icon={faPen} className="icone-option" />
-              </NavLink>
-            )}
-          </button>
+              </Link>
+            </button>
+          )}
         </div>
       </div>
 
@@ -56,7 +65,12 @@ const PostCard = ({ post, user, setAllPosts }) => {
         </div>
         <div className="post-footer__reaction">
           <button className="comment">
-            <NewComment postId={post.id} />
+            <Comments postId={post.id} />
+            <FontAwesomeIcon
+              className="comment__icone"
+              icon={faComment}
+              size="lg"
+            />
           </button>
         </div>
       </div>

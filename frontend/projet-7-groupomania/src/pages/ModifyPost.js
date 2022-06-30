@@ -1,12 +1,28 @@
-import React, { useRef, useState, useContext } from "react";
+import React, { useRef, useState, useContext, useEffect } from "react";
 import axios from "axios";
 import { UserToken } from "../components/UserToken";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
-const ModifyPost = (postTitle, postImg, postDescription, postId) => {
+const ModifyPost = () => {
   const navigate = useNavigate();
   const { token } = useContext(UserToken);
-  const imgFiled = useRef(null);
+  const location = useLocation();
+
+  const [defaultValues, setDefaultValues] = useState({
+    title: "",
+    img: "",
+    description: "",
+    postId: "",
+  });
+
+  useEffect(() => {
+    if (location.state) {
+      let _state = location.state;
+      setDefaultValues(_state);
+    }
+  }, [location.state]);
+
+  const imgFiled = useRef();
   const [postInfos, setPostInfos] = useState({
     title: "",
     description: "",
@@ -26,15 +42,21 @@ const ModifyPost = (postTitle, postImg, postDescription, postId) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     const formData = new FormData();
-    formData.append("title", postInfos.title);
-    formData.append("description", postInfos.description);
-    formData.append("image", imgFiled.current.files[0]);
+    formData.append("title", postInfos.title || defaultValues.title);
+    formData.append(
+      "description",
+      postInfos.description || defaultValues.description
+    );
+    formData.append("image", imgFiled.current.files[0] || defaultValues.img);
     axios
-      .post(
+      .put(
         `http://localhost:3000/api/post/modifyPost`,
         formData,
 
-        { headers: { authorization: `Bearer ${token}` }, params: postId }
+        {
+          headers: { authorization: `Bearer ${token}` },
+          params: { currentPostId: defaultValues.postId },
+        }
       )
       .then(function (res) {
         setPostInfos(res.data);
@@ -54,7 +76,7 @@ const ModifyPost = (postTitle, postImg, postDescription, postId) => {
               onChange={handleChange}
               id="title"
               name="title"
-              defaultValue={postTitle}
+              defaultValue={defaultValues.title}
             />
           </div>
 
@@ -68,7 +90,7 @@ const ModifyPost = (postTitle, postImg, postDescription, postId) => {
               onChange={handleChange}
               id="imageUrl"
               name="imageUrl"
-              defaultValue={postImg}
+              defaultValue={defaultValues.img}
             />
           </div>
 
@@ -80,7 +102,7 @@ const ModifyPost = (postTitle, postImg, postDescription, postId) => {
               onChange={handleChange}
               id="description"
               name="description"
-              defaultValue={postDescription}
+              defaultValue={defaultValues.description}
             />
           </div>
 
