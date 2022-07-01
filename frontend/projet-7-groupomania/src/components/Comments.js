@@ -1,7 +1,7 @@
 import React from "react";
 
-const Comments = (postId) => {
-  return <div className="comment"></div>;
+const Comments = ({ post, user }) => {
+  return <div></div>;
 };
 
 export default Comments;

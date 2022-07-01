@@ -158,8 +158,7 @@ exports.deletePost = (req, res, next) => {
 };
 
 exports.getAllPosts = (req, res, next) => {
-  let allPosts =
-    "SELECT posts.id, posts.user_id, description, imageUrl, title FROM posts";
+  let allPosts = "SELECT * FROM posts, users WHERE posts.user_id = users.id";
   dataBaseConnection.query(allPosts, function (error, result) {
     if (error) {
       console.log(error);
@@ -175,7 +174,8 @@ exports.getAllPosts = (req, res, next) => {
 
 exports.getOnePost = (req, res, next) => {
   const postId = req.params.id;
-  let onePost = "SELECT * FROM posts WHERE id = ?";
+  let onePost =
+    "SELECT * FROM posts, users WHERE id = ? AND posts.user_id = users.id";
   let onePostValues = [postId];
   onePost = mysql.format(onePost, onePostValues);
   dataBaseConnection.query(onePost, function (error, result) {
@@ -188,7 +188,8 @@ exports.getOnePost = (req, res, next) => {
 };
 
 exports.getPostsByUser = (req, res, next) => {
-  let postsByUser = "SELECT * FROM posts WHERE user_id = ?";
+  let postsByUser =
+    "SELECT * FROM posts, users WHERE user_id = ? AND posts.user_id = users.id";
   let postsByUserValues = [req.auth.userId];
   postsByUser = mysql.format(postsByUser, postsByUserValues);
   dataBaseConnection.query(postsByUser, function (error, result) {

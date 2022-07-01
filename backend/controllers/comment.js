@@ -5,7 +5,7 @@ const dataBaseConnection = require("../config/dataBase");
 const TOKEN = process.env.TOKEN;
 
 exports.createComment = (req, res, next) => {
-  const postId = req.params.id;
+  const postId = req.query.postId;
   const content = req.body.content;
 
   let saveComment =
@@ -19,6 +19,22 @@ exports.createComment = (req, res, next) => {
         .json({ error: "La création du commentaire a échouée" });
     } else {
       return res.status(200).json({ message: "Commentaire crée !" });
+    }
+  });
+};
+
+exports.getComments = (req, res, next) => {
+  const postId = req.query.postId;
+  let getComments = "SELECT * FROM comments WHERE comments.post_id = ?";
+  let getCommentsValues = [postId];
+  getComments = mysql.format(getComments, getCommentsValues);
+  dataBaseConnection.query(getComments, function (error, result) {
+    if (error) {
+      return res
+        .status(400)
+        .json({ error: "Récupération des commentaires impossible" });
+    } else {
+      return res.status(200).json(result);
     }
   });
 };

@@ -1,18 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import DeletePost from "./DeletePost";
+import AddComment from "./AddComment";
 import Comments from "./Comments";
 import LikePost from "./LikePost";
-import PostCreator from "./PostCreator";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen, faComment } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 
 const PostCard = ({ post, user, setAllPosts }) => {
+  const [comments, setComments] = useState(false);
   return (
     <div className="post-card" key={post.id}>
       <div className="post-header">
         <div className="post-header__user">
-          <PostCreator postUserId={post.user_id} />
+          <h4>
+            {post.username} <small>a posté</small>
+          </h4>
         </div>
         <div className="post-header__title">
           <h4>{post.title}</h4>
@@ -64,14 +67,16 @@ const PostCard = ({ post, user, setAllPosts }) => {
           </button>
         </div>
         <div className="post-footer__reaction">
-          <button className="comment">
-            <Comments postId={post.id} />
+          <div className="comment">
             <FontAwesomeIcon
               className="comment__icone"
               icon={faComment}
               size="lg"
+              onClick={() => setComments(!comments)}
             />
-          </button>
+          </div>
+          {comments && <AddComment post={post} user={user} />}
+          {comments && <Comments post={post} user={user} />}
         </div>
       </div>
     </div>
