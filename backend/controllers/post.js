@@ -33,7 +33,7 @@ exports.modifyPost = (req, res, next) => {
   const postDescription = req.body.description;
   let imgUrl = "";
 
-  let postCreator = "SELECT user_id FROM posts WHERE posts.id = ?";
+  let postCreator = "SELECT user_id FROM posts WHERE posts.Id = ?";
   let postCreatorValues = [postId];
   postCreator = mysql.format(postCreator, postCreatorValues);
   dataBaseConnection.query(postCreator, function (error, result) {
@@ -46,11 +46,11 @@ exports.modifyPost = (req, res, next) => {
           req.file.filename
         }`;
       }
-      let previousImg = "SELECT imageUrl FROM posts WHERE id = ?";
+      let previousImg = "SELECT imageUrl FROM posts WHERE Id = ?";
       let previousImgValues = [postId];
       previousImg = mysql.format(previousImg, previousImgValues);
       let updatePost =
-        "UPDATE posts SET description = ?, imageUrl = ?, title = ? WHERE id = ?";
+        "UPDATE posts SET description = ?, imageUrl = ?, title = ? WHERE Id = ?";
       let updatePostValues = [postDescription, imgUrl, postTitle, postId];
       updatePost = mysql.format(updatePost, updatePostValues);
       dataBaseConnection.query(previousImg, function (error, result) {
@@ -84,21 +84,22 @@ exports.modifyPost = (req, res, next) => {
 exports.deletePost = (req, res, next) => {
   const postId = Number(req.query.postId);
   const postCreator = Number(req.query.postCreator);
+
   if (req.auth.isAdmin !== 0) {
     //Suppression par un moderateur
-    let postImg = "SELECT imageUrl FROM posts where id = ?";
+    let postImg = "SELECT imageUrl FROM posts where Id = ?";
     let postImgValues = [postId];
     postImg = mysql.format(postImg, postImgValues);
-    let deletePost = "DELETE * FROM posts WHERE id = ?";
+    let deletePost = "DELETE * FROM posts WHERE Id = ?";
     let deletePostValues = [postId];
     deletePost = mysql.format(deletePost, deletePostValues);
-    dataBaseConnection.query(postImg, function (error, result) {
+    dataBaseConnection.query(postImg, function (error, image) {
       if (error) {
         return res
           .status(400)
           .json({ error: "La suppression de l'image a échouée" });
       } else {
-        let imgUrl = result[0].imageUrl;
+        let imgUrl = image[0].imageUrl;
         if (imgUrl !== "") {
           const filename = imgUrl.split("/images/")[1];
           fs.unlink(`images/${filename}`, () => {});
@@ -117,24 +118,24 @@ exports.deletePost = (req, res, next) => {
       }
     });
   }
-  console.log(postId);
-  console.log(req.auth.userId);
-  console.log(postCreator);
+
   if (req.auth.userId !== postCreator) {
     //Suppression par le créateur du post
     return res.status(401).json({ error: "Ce n'est pas votre post !" });
   } else {
-    let postImg = "SELECT imageUrl FROM posts where id = ?";
+    let postImg = "SELECT imageUrl FROM posts where Id = ?";
     let postImgValues = [postId];
     postImg = mysql.format(postImg, postImgValues);
-    let deletePost = "DELETE  FROM posts WHERE posts.id = ?";
+    let deletePost = "DELETE * FROM posts WHERE posts.Id = ?";
     let deletePostValues = [postId];
     deletePost = mysql.format(deletePost, deletePostValues);
-    dataBaseConnection.query(postImg, function (error, result) {
+    dataBaseConnection.query(postImg, function (error, image) {
       if (error) {
-        return res.status(400).json({ error: "La suppression a échouée" });
+        return res
+          .status(400)
+          .json({ error: "La récupération de l'image a échouée" });
       } else {
-        let imgUrl = result[0].imageUrl;
+        let imgUrl = image[0].imageUrl;
         if (imgUrl !== "") {
           const filename = imgUrl.split("/images/")[1];
           fs.unlink(`images/${filename}`, () => {});
@@ -175,7 +176,7 @@ exports.getAllPosts = (req, res, next) => {
 exports.getOnePost = (req, res, next) => {
   const postId = req.params.id;
   let onePost =
-    "SELECT * FROM posts, users WHERE id = ? AND posts.user_id = users.id";
+    "SELECT * FROM posts, users WHERE Id = ? AND posts.user_id = users.id";
   let onePostValues = [postId];
   onePost = mysql.format(onePost, onePostValues);
   dataBaseConnection.query(onePost, function (error, result) {
@@ -207,7 +208,7 @@ exports.likePost = (req, res, next) => {
   const like = req.body.like;
   const postId = req.params.postId;
   const userId = req.auth.userId;
-  let alreadyliked = "SELECT * FROM likes WHERE userId = ? AND postId = ?";
+  let alreadyliked = "SELECT * FROM likes WHERE userId = ? AND posts.Id = ?";
   let alreadylikedValues = [req.auth.userId, postId];
   alreadyliked = mysql.format(alreadyliked, alreadylikedValues);
   dataBaseConnection.query(alreadyliked, function (error, result) {});

@@ -23,7 +23,7 @@ const PostCard = ({ post, user, setAllPosts }) => {
         <div className="post-header__options">
           {post.user_id === user.id && (
             <DeletePost
-              postId={post.id}
+              postId={post.Id}
               postCreator={post.user_id}
               setAllPosts={setAllPosts}
             />
@@ -37,7 +37,7 @@ const PostCard = ({ post, user, setAllPosts }) => {
                   title: post.title,
                   img: post.imageUrl,
                   description: post.description,
-                  postId: post.id,
+                  postId: post.Id,
                 }}
               >
                 <FontAwesomeIcon icon={faPen} className="icone-option" />
@@ -63,7 +63,7 @@ const PostCard = ({ post, user, setAllPosts }) => {
       <div className="post-footer">
         <div className="post-footer__reaction">
           <button className="like">
-            <LikePost postId={post.id} />
+            <LikePost postId={post.Id} />
           </button>
         </div>
         <div className="post-footer__reaction">

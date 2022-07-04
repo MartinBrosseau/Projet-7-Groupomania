@@ -33,7 +33,7 @@ const AllPosts = () => {
         {allPosts.map((post, index) => (
           <PostCard
             post={post}
-            key={post.id}
+            key={post.Id}
             user={userProfil}
             setAllPosts={setAllPosts}
           />
