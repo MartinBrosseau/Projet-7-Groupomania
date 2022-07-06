@@ -27,7 +27,7 @@ const AddComment = ({ post, user }) => {
       { ...data },
       {
         headers: { authorization: `Bearer ${token}` },
-        params: { postId: post.id },
+        params: { postId: post.Id },
       }
     );
   };

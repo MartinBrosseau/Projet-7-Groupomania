@@ -108,7 +108,9 @@ exports.deletePost = (req, res, next) => {
         }
         dataBaseConnection.query(deletePost, function (error, result) {
           if (error) {
-            return res.status(400).json({ error: "La suppression a échouée" });
+            return res
+              .status(400)
+              .json({ error: "La suppression a échouée !" });
           } else {
             return res
               .status(200)
@@ -126,7 +128,7 @@ exports.deletePost = (req, res, next) => {
     let postImg = "SELECT imageUrl FROM posts where Id = ?";
     let postImgValues = [postId];
     postImg = mysql.format(postImg, postImgValues);
-    let deletePost = "DELETE * FROM posts WHERE posts.Id = ?";
+    let deletePost = "DELETE FROM posts WHERE posts.Id = ? ";
     let deletePostValues = [postId];
     deletePost = mysql.format(deletePost, deletePostValues);
     dataBaseConnection.query(postImg, function (error, image) {
@@ -135,6 +137,7 @@ exports.deletePost = (req, res, next) => {
           .status(400)
           .json({ error: "La récupération de l'image a échouée" });
       } else {
+        console.log(image);
         let imgUrl = image[0].imageUrl;
         if (imgUrl !== "") {
           const filename = imgUrl.split("/images/")[1];

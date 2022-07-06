@@ -8,7 +8,7 @@ import { faPen, faComment } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 
 const PostCard = ({ post, user, setAllPosts }) => {
-  const [comments, setComments] = useState(false);
+  const [showComments, setShowComments] = useState(false);
   return (
     <div className="post-card" key={post.id}>
       <div className="post-header">
@@ -72,11 +72,11 @@ const PostCard = ({ post, user, setAllPosts }) => {
               className="comment__icone"
               icon={faComment}
               size="lg"
-              onClick={() => setComments(!comments)}
+              onClick={() => setShowComments(!showComments)}
             />
           </div>
-          {comments && <AddComment post={post} user={user} />}
-          {comments && <Comments post={post} user={user} />}
+          {showComments && <AddComment post={post} user={user} />}
+          {showComments && <Comments post={post} user={user} />}
         </div>
       </div>
     </div>

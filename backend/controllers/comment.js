@@ -25,7 +25,8 @@ exports.createComment = (req, res, next) => {
 
 exports.getComments = (req, res, next) => {
   const postId = req.query.postId;
-  let getComments = "SELECT * FROM comments WHERE comments.post_id = ?";
+  let getComments =
+    "SELECT * FROM comments, users WHERE (comments.post_id = ? AND comments.user_id = users.id) ";
   let getCommentsValues = [postId];
   getComments = mysql.format(getComments, getCommentsValues);
   dataBaseConnection.query(getComments, function (error, result) {
@@ -34,22 +35,23 @@ exports.getComments = (req, res, next) => {
         .status(400)
         .json({ error: "Récupération des commentaires impossible" });
     } else {
+      console.log(result);
       return res.status(200).json(result);
     }
   });
 };
 
 exports.modifyComment = (req, res, next) => {
-  const commentId = req.params.id;
+  const commentId = req.query.commentId;
   const newContent = req.body.content;
-  let commentCreator = "SELECT user_id FROM comments WHERE id = ?";
+  let commentCreator = "SELECT user_id FROM comments WHERE ID = ?";
   let commentCreatorValues = [commentId];
   commentCreator = mysql.format(commentCreator, commentCreatorValues);
   dataBaseConnection.query(commentCreator, function (error, result) {
     if (commentCreator !== req.auth.userId) {
       return res.status(401).json({ error: "Ce n'est pas votre commentaire" });
     } else {
-      let updatePost = "UPDATE comments SET content = ? WHERE id = ? ";
+      let updatePost = "UPDATE comments SET content = ? WHERE ID = ? ";
       let updatePostValues = [newContent, commentId];
       updatePost = mysql.format(updatePost, updatePostValues);
       dataBaseConnection.query(updatePost, function (error, result) {
@@ -64,15 +66,11 @@ exports.modifyComment = (req, res, next) => {
 };
 
 exports.deleteComment = (req, res, next) => {
-  const token = req.headers.authorization.split(" ")[1]; //On récupère l'id utilisateur dans le token
-  const decodedToken = jwt.verify(token, `${TOKEN}`);
-  const userId = decodedToken.userId;
-  const isAdmin = decodedToken.isAdmin;
-  const commentId = req.params.id;
+  const commentId = req.query.commentId;
 
-  if (isAdmin !== 0) {
+  if (req.auth.isAdmin !== 0) {
     //Suppression par un modérateur
-    let deleteComment = "DELETE FROM comments WHERE id = ?";
+    let deleteComment = "DELETE FROM comments WHERE ID = ?";
     let deleteCommentValues = [commentId];
     deleteComment = mysql.format(deleteComment, deleteCommentValues);
     dataBaseConnection.query(deleteComment, function (error, result) {
@@ -86,16 +84,17 @@ exports.deleteComment = (req, res, next) => {
     });
   } else {
     //Suppression par le créateur du commentaire
-    let commentCreator = "SELECT user_id FROM comments WHERE id = ?";
+    let commentCreator = "SELECT user_id FROM comments WHERE ID = ?";
     let commentCreatorValues = [commentId];
     commentCreator = mysql.format(commentCreator, commentCreatorValues);
     dataBaseConnection.query(commentCreator, function (error, result) {
-      if (commentCreator !== req.auth.userId) {
+      console.log(result[0].user_id);
+      if (result[0].user_id !== req.auth.userId) {
         return res
           .status(401)
           .json({ error: "Ce n'est pas votre commentaire" });
       } else {
-        let deleteComment = "DELETE FROM comments WHERE id = ?";
+        let deleteComment = "DELETE FROM comments WHERE ID = ?";
         let deleteCommentValues = [commentId];
         deleteComment = mysql.format(deleteComment, deleteCommentValues);
         dataBaseConnection.query(deleteComment, function (error, result) {

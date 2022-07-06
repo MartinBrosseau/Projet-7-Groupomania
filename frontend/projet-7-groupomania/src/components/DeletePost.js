@@ -15,7 +15,7 @@ const DeletePost = ({ postId, postCreator, setAllPosts }) => {
       })
       .then((res) => {
         setAllPosts((oldPosts) =>
-          oldPosts.filter((post) => post.id !== postId)
+          oldPosts.filter((post) => post.Id !== postId)
         );
       });
   };
