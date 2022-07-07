@@ -66,7 +66,7 @@ const PostCard = ({ post, user, setAllPosts }) => {
         <div className="post-footer__reaction">
           <button className="like">
             {likesNumber}
-            <LikePost postId={post.Id} setLikesNumber={setLikesNumber} />
+            <LikePost post={post} user={user} setLikesNumber={setLikesNumber} />
           </button>
         </div>
         <div className="post-footer__reaction">

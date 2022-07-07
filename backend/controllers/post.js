@@ -172,7 +172,6 @@ exports.getAllPosts = (req, res, next) => {
         .status(400)
         .json({ error: "Impossible de récupérer les posts" });
     } else {
-      console.log(result);
       return res.status(200).json(result);
     }
   });
@@ -210,45 +209,43 @@ exports.getPostsByUser = (req, res, next) => {
 };
 
 exports.likePost = (req, res, next) => {
-  const like = req.body.like;
-  const postId = req.params.postId;
-  const userId = req.auth.userId;
-  let alreadyliked = "SELECT * FROM likes WHERE userId = ? AND posts.Id = ?";
+  const postId = req.query.postId;
+  console.log(postId);
+  console.log(userId);
+  let alreadyliked =
+    "SELECT * FROM likes WHERE likes.user_id = ? AND likes.post_id = ?";
   let alreadylikedValues = [req.auth.userId, postId];
   alreadyliked = mysql.format(alreadyliked, alreadylikedValues);
-  dataBaseConnection.query(alreadyliked, function (error, result) {});
 
-  if (like === 1 && alreadyliked === null) {
-    let addLike = "INSERT INTO likes (user_id, post_id) VALUES (?, ?)";
-    let addlikeValues = [userId, postId];
-    addLike = mysql.format(addLike, addlikeValues);
-    dataBaseConnection.query(addLike, function (error, result) {
-      if (error) {
-        return res.status(400).json({ error: "Impossible de like le post" });
-      } else {
-        return res.status(200).json({ message: "Like ajouté !" });
-      }
-    });
-  } else {
-    return res.status(400).json({ error: "Vous avez déja like ce post !" });
-  }
+  let addLike = "INSERT INTO likes (user_id, post_id) VALUES (?, ?)";
+  let addLikeValues = [req.auth.userId, postId];
+  addLike = mysql.format(addLike, addLikeValues);
 
-  if (like === 0 && alreadyliked !== null) {
-    let deleteLike = "DELETE FROM likes (user_id, post_id) VALUES (?, ?)";
-    let deleteLikeValues = [userId, postId];
-    deleteLike = mysql.format(deleteLike, deleteLikeValues);
-    dataBaseConnection.query(deleteLike, function (error, result) {
-      if (error) {
-        return res.status(400).json({ error: "Annulation du like impossible" });
-      } else {
-        return res.status(200).json({ message: "Like supprimé !" });
+  let unlike = "DELETE * FROM likes WHERE like.user_id = ? AND like.post_id= ?";
+  let unlikeValues = [req.auth.userId, postId];
+  unlike = mysql.format(unlike, unlikeValues);
+
+  dataBaseConnection.query(alreadyliked, function (error, userLiked) {
+    console.log(userLiked);
+    if (error) {
+      return res
+        .status(400)
+        .json({ message: "récupération des données impossible !" });
+    } else {
+      if (userLiked[0].user_id === 0 || userLiked[0].post_id === 0) {
+        console.log(userLiked[0].user_id);
+        dataBaseConnection.query(addLike, function (error, liked) {
+          if (error) {
+            return res.status(400).json({ message: "Like impossible" });
+          } else {
+            return res
+              .status(200)
+              .json({ message: "Like ajouté avec succès ! " });
+          }
+        });
       }
-    });
-  } else {
-    return res
-      .status(400)
-      .json({ error: "Vous ne pouvez pas annuler ce like" });
-  }
+    }
+  });
 };
 
 exports.postCreator = (req, res, next) => {

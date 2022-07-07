@@ -35,7 +35,6 @@ exports.getComments = (req, res, next) => {
         .status(400)
         .json({ error: "Récupération des commentaires impossible" });
     } else {
-      console.log(result);
       return res.status(200).json(result);
     }
   });
@@ -64,7 +63,6 @@ exports.deleteComment = (req, res, next) => {
     let commentCreatorValues = [commentId];
     commentCreator = mysql.format(commentCreator, commentCreatorValues);
     dataBaseConnection.query(commentCreator, function (error, result) {
-      console.log(result[0].user_id);
       if (result[0].user_id !== req.auth.userId) {
         return res
           .status(401)
