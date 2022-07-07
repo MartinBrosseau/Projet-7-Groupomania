@@ -9,9 +9,6 @@ router.get("/getComments", auth, commentCtrl.getComments);
 //route post : createComment
 router.post("/createComment", auth, commentCtrl.createComment);
 
-//route put : modifyComment
-router.put("/modifyComment", auth, commentCtrl.modifyComment);
-
 //route delete : deleteComment
 router.delete("/deleteComment", auth, commentCtrl.deleteComment);
 

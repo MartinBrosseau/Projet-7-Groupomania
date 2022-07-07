@@ -55,6 +55,9 @@
         justify-content: space-between;
         &__reaction {   
             .like{
+                display: flex;
+                flex-direction: row-reverse;
+                align-items: center;
                 padding: 5px;
                 color: #00acee;
                 background-color: #F8F8FF;
@@ -62,6 +65,9 @@
                 border: none;
             }
             .comment{
+                display: flex;
+                flex-direction: row-reverse;
+                align-items: center;
                 padding: 5px;
                 color: #00acee;
                 background-color: #F8F8FF;

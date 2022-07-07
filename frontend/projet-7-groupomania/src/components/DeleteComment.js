@@ -4,9 +4,14 @@ import { UserToken } from "./UserToken";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 
-const DeleteComment = ({ comment, setAllComments, commentId }) => {
+const DeleteComment = ({
+  comment,
+  setAllComments,
+  commentId,
+  setCommentsNumber,
+  post,
+}) => {
   const { token } = useContext(UserToken);
-
   const deleteComment = () => {
     axios
       .delete("http://localhost:3000/api/comment/deleteComment", {
@@ -17,6 +22,9 @@ const DeleteComment = ({ comment, setAllComments, commentId }) => {
         setAllComments((oldComments) =>
           oldComments.filter((comment) => comment.ID !== commentId)
         );
+      })
+      .then((res) => {
+        setCommentsNumber(--post.comments_number);
       });
   };
   return (

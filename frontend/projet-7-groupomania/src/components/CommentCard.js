@@ -1,8 +1,13 @@
 import React from "react";
-import ModifyComment from "./ModifyComment";
 import DeleteComment from "./DeleteComment";
 
-const CommentCard = ({ comment, user, post, setAllComments }) => {
+const CommentCard = ({
+  comment,
+  user,
+  post,
+  setAllComments,
+  setCommentsNumber,
+}) => {
   return (
     <div className="comment-card">
       <div className="comment-header">
@@ -12,12 +17,6 @@ const CommentCard = ({ comment, user, post, setAllComments }) => {
       </div>
       <div className="comment-content">{comment.content}</div>
       <div className="comment-options">
-        {comment.user_id === user.id ||
-          (user.admin !== 0 && (
-            <div className="comment-options__modify">
-              <ModifyComment comment={comment} user={user} post={post} />
-            </div>
-          ))}
         {comment.user_id === user.id && (
           <div className="comment-options__delete">
             <DeleteComment
@@ -26,6 +25,7 @@ const CommentCard = ({ comment, user, post, setAllComments }) => {
               post={post}
               setAllComments={setAllComments}
               commentId={comment.ID}
+              setCommentsNumber={setCommentsNumber}
             />
           </div>
         )}

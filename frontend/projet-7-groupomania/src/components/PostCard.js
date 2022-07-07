@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import DeletePost from "./DeletePost";
-import AddComment from "./AddComment";
 import Comments from "./Comments";
 import LikePost from "./LikePost";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -9,12 +8,15 @@ import { Link } from "react-router-dom";
 
 const PostCard = ({ post, user, setAllPosts }) => {
   const [showComments, setShowComments] = useState(false);
+  const [commentsNumber, setCommentsNumber] = useState(post.comments_number);
+  const [likesNumber, setLikesNumber] = useState(post.likes_number);
+
   return (
     <div className="post-card" key={post.id}>
       <div className="post-header">
         <div className="post-header__user">
           <h4>
-            {post.username} <small>a posté</small>
+            {post.post_creator} <small>a posté</small>
           </h4>
         </div>
         <div className="post-header__title">
@@ -63,11 +65,13 @@ const PostCard = ({ post, user, setAllPosts }) => {
       <div className="post-footer">
         <div className="post-footer__reaction">
           <button className="like">
-            <LikePost postId={post.Id} />
+            {likesNumber}
+            <LikePost postId={post.Id} setLikesNumber={setLikesNumber} />
           </button>
         </div>
         <div className="post-footer__reaction">
           <div className="comment">
+            {commentsNumber}
             <FontAwesomeIcon
               className="comment__icone"
               icon={faComment}
@@ -75,8 +79,14 @@ const PostCard = ({ post, user, setAllPosts }) => {
               onClick={() => setShowComments(!showComments)}
             />
           </div>
-          {showComments && <AddComment post={post} user={user} />}
-          {showComments && <Comments post={post} user={user} />}
+
+          {showComments && (
+            <Comments
+              post={post}
+              user={user}
+              setCommentsNumber={setCommentsNumber}
+            />
+          )}
         </div>
       </div>
     </div>

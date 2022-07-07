@@ -41,30 +41,6 @@ exports.getComments = (req, res, next) => {
   });
 };
 
-exports.modifyComment = (req, res, next) => {
-  const commentId = req.query.commentId;
-  const newContent = req.body.content;
-  let commentCreator = "SELECT user_id FROM comments WHERE ID = ?";
-  let commentCreatorValues = [commentId];
-  commentCreator = mysql.format(commentCreator, commentCreatorValues);
-  dataBaseConnection.query(commentCreator, function (error, result) {
-    if (commentCreator !== req.auth.userId) {
-      return res.status(401).json({ error: "Ce n'est pas votre commentaire" });
-    } else {
-      let updatePost = "UPDATE comments SET content = ? WHERE ID = ? ";
-      let updatePostValues = [newContent, commentId];
-      updatePost = mysql.format(updatePost, updatePostValues);
-      dataBaseConnection.query(updatePost, function (error, result) {
-        if (error) {
-          return res.status(400).json({ error: "La modification a échouée" });
-        } else {
-          return res.status(200).json({ message: "Modification réussie" });
-        }
-      });
-    }
-  });
-};
-
 exports.deleteComment = (req, res, next) => {
   const commentId = req.query.commentId;
 

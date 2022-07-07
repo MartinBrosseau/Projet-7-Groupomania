@@ -1,9 +1,10 @@
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
+import AddComment from "./AddComment";
 import CommentCard from "./CommentCard";
 import { UserToken } from "./UserToken";
 
-const Comments = ({ post, user }) => {
+const Comments = ({ post, user, setCommentsNumber }) => {
   const { token } = useContext(UserToken);
   const [allComments, setAllComments] = useState([]);
 
@@ -18,6 +19,11 @@ const Comments = ({ post, user }) => {
   return (
     <div>
       <div className="comments-container">
+        <AddComment
+          post={post}
+          user={user}
+          setCommentsNumber={setCommentsNumber}
+        />
         {allComments.map((comment, index) => (
           <CommentCard
             comment={comment}
@@ -25,6 +31,7 @@ const Comments = ({ post, user }) => {
             post={post}
             user={user}
             setAllComments={setAllComments}
+            setCommentsNumber={setCommentsNumber}
           />
         ))}
       </div>

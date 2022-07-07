@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState, useContext } from "react";
 import { UserToken } from "./UserToken";
 
-const AddComment = ({ post, user }) => {
+const AddComment = ({ post, user, setCommentsNumber }) => {
   const { token } = useContext(UserToken);
   const [commentText, setCommentText] = useState({
     content: "",

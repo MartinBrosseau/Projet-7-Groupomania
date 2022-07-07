@@ -162,7 +162,9 @@ exports.deletePost = (req, res, next) => {
 };
 
 exports.getAllPosts = (req, res, next) => {
-  let allPosts = "SELECT * FROM posts, users WHERE posts.user_id = users.id";
+  let allPosts =
+    "SELECT posts.Id, posts.user_id, description, imageUrl, title, (SELECT COUNT (*) FROM likes WHERE likes.post_id = posts.Id) AS likes_number, (SELECT COUNT (*) FROM comments WHERE comments.post_id = posts.Id) AS comments_number, (SELECT users.username FROM users WHERE posts.user_id = users.id) AS post_creator FROM posts LEFT JOIN likes ON likes.post_id = posts.Id ";
+
   dataBaseConnection.query(allPosts, function (error, result) {
     if (error) {
       console.log(error);
