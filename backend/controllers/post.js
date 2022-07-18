@@ -26,8 +26,7 @@ exports.createPost = (req, res, next) => {
 exports.modifyPost = (req, res, next) => {
   const postId = req.query.currentPostId;
   const userId = req.auth.userId;
-  console.log(userId);
-  console.log(postId);
+
   const postImg = req.file;
   const postTitle = req.body.title;
   const postDescription = req.body.description;
@@ -37,7 +36,6 @@ exports.modifyPost = (req, res, next) => {
   let postCreatorValues = [postId];
   postCreator = mysql.format(postCreator, postCreatorValues);
   dataBaseConnection.query(postCreator, function (error, result) {
-    console.log(result[0].user_id);
     if (result[0].user_id !== userId) {
       return res.status(401).json({ error: "Ce n'est pas votre post !" });
     } else {
@@ -87,10 +85,10 @@ exports.deletePost = (req, res, next) => {
 
   if (req.auth.isAdmin !== 0) {
     //Suppression par un moderateur
-    let postImg = "SELECT imageUrl FROM posts where Id = ?";
+    let postImg = "SELECT imageUrl FROM posts where posts.Id = ?";
     let postImgValues = [postId];
     postImg = mysql.format(postImg, postImgValues);
-    let deletePost = "DELETE * FROM posts WHERE Id = ?";
+    let deletePost = "DELETE FROM posts WHERE Id = ?";
     let deletePostValues = [postId];
     deletePost = mysql.format(deletePost, deletePostValues);
     dataBaseConnection.query(postImg, function (error, image) {
@@ -128,7 +126,7 @@ exports.deletePost = (req, res, next) => {
     let postImg = "SELECT imageUrl FROM posts where Id = ?";
     let postImgValues = [postId];
     postImg = mysql.format(postImg, postImgValues);
-    let deletePost = "DELETE FROM posts WHERE posts.Id = ? ";
+    let deletePost = "DELETE FROM posts WHERE posts.Id = ?";
     let deletePostValues = [postId];
     deletePost = mysql.format(deletePost, deletePostValues);
     dataBaseConnection.query(postImg, function (error, image) {
@@ -137,7 +135,6 @@ exports.deletePost = (req, res, next) => {
           .status(400)
           .json({ error: "La récupération de l'image a échouée" });
       } else {
-        console.log(image);
         let imgUrl = image[0].imageUrl;
         if (imgUrl !== "") {
           const filename = imgUrl.split("/images/")[1];
@@ -149,7 +146,7 @@ exports.deletePost = (req, res, next) => {
           if (error) {
             return res
               .status(400)
-              .json({ error: "La suppression du post a échouée" });
+              .json({ error: "La suppression du post a échouée !" });
           } else {
             return res
               .status(200)
@@ -167,7 +164,6 @@ exports.getAllPosts = (req, res, next) => {
 
   dataBaseConnection.query(allPosts, function (error, result) {
     if (error) {
-      console.log(error);
       return res
         .status(400)
         .json({ error: "Impossible de récupérer les posts" });
@@ -210,8 +206,6 @@ exports.getPostsByUser = (req, res, next) => {
 
 exports.likePost = (req, res, next) => {
   const postId = req.query.postId;
-  console.log(postId);
-  console.log(userId);
   let alreadyliked =
     "SELECT * FROM likes WHERE likes.user_id = ? AND likes.post_id = ?";
   let alreadylikedValues = [req.auth.userId, postId];
@@ -221,7 +215,8 @@ exports.likePost = (req, res, next) => {
   let addLikeValues = [req.auth.userId, postId];
   addLike = mysql.format(addLike, addLikeValues);
 
-  let unlike = "DELETE * FROM likes WHERE like.user_id = ? AND like.post_id= ?";
+  let unlike =
+    "DELETE FROM likes WHERE likes.user_id = ? AND likes.post_id = ?";
   let unlikeValues = [req.auth.userId, postId];
   unlike = mysql.format(unlike, unlikeValues);
 
@@ -232,18 +227,16 @@ exports.likePost = (req, res, next) => {
         .status(400)
         .json({ message: "récupération des données impossible !" });
     } else {
-      if (userLiked[0].user_id === 0 || userLiked[0].post_id === 0) {
-        console.log(userLiked[0].user_id);
-        dataBaseConnection.query(addLike, function (error, liked) {
+      dataBaseConnection.query(
+        userLiked.length === 0 ? addLike : unlike,
+        function (error, liked) {
           if (error) {
             return res.status(400).json({ message: "Like impossible" });
           } else {
-            return res
-              .status(200)
-              .json({ message: "Like ajouté avec succès ! " });
+            return res.status(200).json({ message: "Like modifié", userLiked });
           }
-        });
-      }
+        }
+      );
     }
   });
 };

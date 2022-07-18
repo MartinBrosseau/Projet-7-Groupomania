@@ -1,0 +1,30 @@
+.like-button {
+    display: flex;
+    flex-direction: row;
+    border: none;
+    color: $color-1;
+    background-color: #F8F8FF;
+    &__number{
+        margin-left: 3px;
+    }
+    .emptyLike{
+        font-weight: bold;
+        background-clip: text;
+        color: black;
+        transition: 0.3s ease;
+        &:hover {
+            transform: scale(120%);
+            color: $color-1;
+            
+        }
+    }
+    .filledLike{
+        font-weight: bold;
+        color: $color-1;
+        transition: 0.3s ease;
+        &:hover {
+            transform: scale(120%);
+        }
+    }
+     
+}

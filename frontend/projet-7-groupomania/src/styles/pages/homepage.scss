@@ -1,0 +1,57 @@
+.row {
+    display: flex;
+    flex-direction: row;
+    margin: 25px;
+}
+
+h1 {
+    margin: 25px;
+}
+
+.posts {
+    width: 80%;
+    border: 1px solid black;
+    margin-right: 5%;
+}
+
+.profil {
+    width: 25%;
+    a {
+        text-decoration: none;
+        color: $color-1;
+        font-family: $font-bold;
+        font-size: 20px;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        transition: 0.5, ease;
+        &:hover {
+            text-decoration: underline;
+            text-underline-offset: 5px;
+            text-decoration-thickness: 3px;
+            
+        }
+    }
+    
+    
+}
+
+.post-creation {
+    margin-right: 5%;
+    width: 50%;
+    a {
+        text-decoration: none;
+        color: $color-1;
+        font-size: 20px;
+        font-family: $font-bold;
+        transition: 0.5 ease;
+        &:hover {
+            transform: scale(2);
+            text-decoration: underline;
+            text-underline-offset: 5px;
+            text-decoration-thickness: 3px;
+            
+        }
+    }
+    
+}

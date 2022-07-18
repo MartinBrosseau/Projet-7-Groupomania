@@ -3,7 +3,7 @@ import DeletePost from "./DeletePost";
 import Comments from "./Comments";
 import LikePost from "./LikePost";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPen, faComment } from "@fortawesome/free-solid-svg-icons";
+import { faPen, faMessage } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 
 const PostCard = ({ post, user, setAllPosts }) => {
@@ -32,7 +32,7 @@ const PostCard = ({ post, user, setAllPosts }) => {
           )}
 
           {post.user_id === user.id && (
-            <button className="options">
+            <button className="post-header__options__modify">
               <Link
                 to="/modifypost"
                 state={{
@@ -64,29 +64,34 @@ const PostCard = ({ post, user, setAllPosts }) => {
 
       <div className="post-footer">
         <div className="post-footer__reaction">
-          <button className="like">
-            {likesNumber}
-            <LikePost post={post} user={user} setLikesNumber={setLikesNumber} />
-          </button>
+          <div className="like">
+            <LikePost
+              post={post}
+              user={user}
+              likesNumber={likesNumber}
+              setLikesNumber={setLikesNumber}
+            />
+          </div>
         </div>
         <div className="post-footer__reaction">
           <div className="comment">
-            {commentsNumber}
+            <div className="comment__number">{commentsNumber}</div>
             <FontAwesomeIcon
               className="comment__icone"
-              icon={faComment}
+              icon={faMessage}
               size="lg"
               onClick={() => setShowComments(!showComments)}
             />
           </div>
-
-          {showComments && (
-            <Comments
-              post={post}
-              user={user}
-              setCommentsNumber={setCommentsNumber}
-            />
-          )}
+          <div className="show-comments">
+            {showComments && (
+              <Comments
+                post={post}
+                user={user}
+                setCommentsNumber={setCommentsNumber}
+              />
+            )}
+          </div>
         </div>
       </div>
     </div>

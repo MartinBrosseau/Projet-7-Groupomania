@@ -23,6 +23,8 @@ const Comments = ({ post, user, setCommentsNumber }) => {
           post={post}
           user={user}
           setCommentsNumber={setCommentsNumber}
+          setAllComments={setAllComments}
+          allComments={allComments}
         />
         {allComments.map((comment, index) => (
           <CommentCard

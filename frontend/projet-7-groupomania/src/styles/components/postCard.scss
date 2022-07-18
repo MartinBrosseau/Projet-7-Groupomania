@@ -17,6 +17,10 @@
             margin-bottom: 0px;
             margin-top: 10px;
             margin-left: auto;
+            &__modify {
+                border: none;
+                margin-right: 1px;
+            }
             .icone-option {     
                 display: flex;
                 padding: 5px;
@@ -73,6 +77,16 @@
                 background-color: #F8F8FF;
                 border-radius: 50%;
                 border: none;  
+                &__icone {
+                    transition: 0.3s ease;
+                    &:hover {
+                        cursor: pointer;
+                        transform: scale(120%);
+                    }
+                }
+                &__number {
+                    margin-left: 5px;
+                }
             }             
         }
     }

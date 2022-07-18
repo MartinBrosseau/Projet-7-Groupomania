@@ -2,7 +2,13 @@ import axios from "axios";
 import React, { useState, useContext } from "react";
 import { UserToken } from "./UserToken";
 
-const AddComment = ({ post, user, setCommentsNumber }) => {
+const AddComment = ({
+  post,
+  user,
+  setAllComments,
+  allComments,
+  setCommentsNumber,
+}) => {
   const { token } = useContext(UserToken);
   const [commentText, setCommentText] = useState({
     content: "",
@@ -22,14 +28,21 @@ const AddComment = ({ post, user, setCommentsNumber }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = commentText;
-    axios.post(
-      "http://localhost:3000/api/comment/createComment",
-      { ...data },
-      {
-        headers: { authorization: `Bearer ${token}` },
-        params: { postId: post.Id },
-      }
-    );
+    axios
+      .post(
+        "http://localhost:3000/api/comment/createComment",
+        { ...data },
+        {
+          headers: { authorization: `Bearer ${token}` },
+          params: { postId: post.Id },
+        }
+      )
+      .then((res) => {
+        const newCommentsList = [...allComments];
+        newCommentsList.push(data);
+        setAllComments(newCommentsList);
+        setCommentsNumber(++post.comments_number);
+      });
   };
 
   return (
