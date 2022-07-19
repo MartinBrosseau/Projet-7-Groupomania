@@ -18,32 +18,31 @@ exports.signup = (req, res, next) => {
         "INSERT INTO users ( username, email, password ) VALUES ( ?, ?, ? )";
       let saveUserValues = [userUsername, userEmail, hash];
       saveUser = mysql.format(saveUser, saveUserValues);
-      dataBaseConnection.query(saveUser, function (error, user) {
-        if (error) {
-          return res.status(400).json({ error: "L'inscription a échouée !" });
-        } else {
-          const findUser =
-            "SELECT id, username FROM users WHERE email = userEmail";
-          dataBaseConnection.query(findUser, function (error, result) {
-            if (result == undefined) {
-              return res.status(201).json({
-                message: console.log("Utilisateur inscrit !"),
-                userId: user[0].id,
-                isAdmin: user[0].admin,
-                token: jwt.sign(
-                  { userId: user[0].id, isAdmin: user[0].admin },
-                  `${TOKEN}`,
-                  { expiresIn: "24h" }
-                ),
-              });
-            } else {
-              return res.status(401).json({ error: "Email déja utilisé !" });
-            }
-          });
+      let findUser = "SELECT * FROM users WHERE email = ?";
+      let findUserValues = [userEmail];
+      findUser = mysql.format(findUser, findUserValues);
+      dataBaseConnection.query(
+        findUser !== "" ? error : saveUser,
+        function (error, result) {
+          console.log(result);
+          if (error) {
+            return res.status(400).json({ error: "L'inscription a échouée !" });
+          } else {
+            return res.status(201).json({
+              message: console.log("Utilisateur inscrit !"),
+              userId: result[0].id,
+              isAdmin: result[0].admin,
+              token: jwt.sign(
+                { userId: result[0].id, isAdmin: result[0].admin },
+                `${TOKEN}`,
+                { expiresIn: "24h" }
+              ),
+            });
+          }
         }
-      });
+      );
     })
-    .catch((error) => res.status(500).json({ error }));
+    .catch((error) => res.status(500).json({ error: "server issue" }));
 };
 
 //Connection d'un utilisateur existant

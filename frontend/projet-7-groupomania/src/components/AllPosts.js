@@ -18,6 +18,8 @@ const AllPosts = () => {
       .then((res) => setAllPosts(res.data));
   }, [token, allPosts.id, allPosts.user_id]);
 
+  console.log(allPosts);
+
   useEffect(() => {
     axios
       .get("http://localhost:3000/api/auth/userProfil", {
@@ -28,7 +30,6 @@ const AllPosts = () => {
 
   return (
     <div className="posts-container">
-      <h3>Découvrez les derniers posts !</h3>
       <div className="all-posts">
         {allPosts.map((post, index) => (
           <PostCard

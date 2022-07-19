@@ -72,8 +72,8 @@ const Profil = () => {
     <div className="Profil">
       <h3>Bonjour {userProfil.username},</h3>
       <h4>
-        Sur cette page vous pouvez modifier votre pseudo, consulter vos posts ou
-        même supprimer votre compte
+        Sur cette page vous pouvez modifier votre pseudo,
+        <br /> consulter vos posts ou même supprimer votre compte
       </h4>
       <div className="userProfil">
         <div className="userOptions">
@@ -119,7 +119,7 @@ const Profil = () => {
           <h4>Vos posts :</h4>
           <div className="user-posts">
             {userPosts.map((post, index) => (
-              <PostCard key={index} post={post} user={userProfil} />
+              <PostCard key={post.Id} post={post} user={userProfil} />
             ))}
           </div>
         </div>

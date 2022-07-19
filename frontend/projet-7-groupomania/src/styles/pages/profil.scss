@@ -2,9 +2,23 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    .userPosts {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+       
+        
+        border-radius: 10px;
+    }
     .userOptions {
         display: flex;
         flex-direction: column;
+    }
+    .user-posts {
+        max-width: 75%;
+        max-height: 500px;
+        overflow-x: hidden;
+        overflow-y: auto;
     }
     
 }

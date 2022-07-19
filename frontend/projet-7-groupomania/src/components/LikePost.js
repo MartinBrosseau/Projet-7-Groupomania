@@ -12,6 +12,7 @@ const LikePost = ({ post, likesNumber, setLikesNumber, user }) => {
   });
 
   const [likeButton, setLikeButton] = useState("emptyLike");
+  const [likeCountStyle, setLikeCountStyle] = useState("notLiked");
 
   const likePost = () => {
     const data = liked;
@@ -25,9 +26,11 @@ const LikePost = ({ post, likesNumber, setLikesNumber, user }) => {
         if (userLiked.length === 0) {
           setLikesNumber(++likesNumber);
           setLikeButton("filledLike");
+          setLikeCountStyle("liked");
         } else {
           setLikesNumber(--likesNumber);
           setLikeButton("emptyLike");
+          setLikeCountStyle("notLiked");
         }
       });
   };
@@ -44,7 +47,7 @@ const LikePost = ({ post, likesNumber, setLikesNumber, user }) => {
           likePost();
         }}
       />
-      <div className="like-button__number">{likesNumber}</div>
+      <div className={likeCountStyle}>{likesNumber}</div>
     </button>
   );
 };

@@ -1,7 +1,16 @@
 .header {
-    @include rowCenter;
+    max-width: 80%;
+    background-color: white;
+    z-index: 2;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
     border-bottom: 1px solid $color-3;
-    max-width: 50%;
+    max-width: 100%;
     margin: auto;
     img{
         margin-bottom: 25px;

@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import AllPosts from "../components/AllPosts";
 import axios from "axios";
 import { UserToken } from "../components/UserToken";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 
 const Homepage = () => {
   const { token } = useContext(UserToken);
@@ -19,7 +21,7 @@ const Homepage = () => {
   return (
     <div className="container-fluid">
       <h1 className="h1">
-        Bienvenue {userProfil.username} ! <small>Quoi de neuf ?</small>
+        Bienvenue {userProfil.username} ! <br /> <small>Quoi de neuf ?</small>
       </h1>
 
       <div className="row">
@@ -32,11 +34,20 @@ const Homepage = () => {
           <h4>
             <Link to="/userprofil">Votre profil</Link>
           </h4>
+          <div className="user-logout">
+            <Link to="/connexion" className="user-logout__text">
+              Se déconnecter
+            </Link>
+            <Link to="/connexion" className="user-logout__logo">
+              <FontAwesomeIcon icon={faArrowRightFromBracket} />
+            </Link>
+          </div>
         </div>
       </div>
 
-      <div className="row">
+      <div className="posts-container">
         <div className="posts">
+          <h3>Découvrez les derniers posts !</h3>
           <AllPosts />
         </div>
       </div>

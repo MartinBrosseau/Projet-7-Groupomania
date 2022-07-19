@@ -160,7 +160,7 @@ exports.deletePost = (req, res, next) => {
 
 exports.getAllPosts = (req, res, next) => {
   let allPosts =
-    "SELECT posts.Id, posts.user_id, description, imageUrl, title, (SELECT COUNT (*) FROM likes WHERE likes.post_id = posts.Id) AS likes_number, (SELECT COUNT (*) FROM comments WHERE comments.post_id = posts.Id) AS comments_number, (SELECT users.username FROM users WHERE posts.user_id = users.id) AS post_creator FROM posts LEFT JOIN likes ON likes.post_id = posts.Id ";
+    "SELECT posts.Id, posts.user_id, description, imageUrl, title, (SELECT COUNT (*) FROM likes WHERE likes.post_id = posts.Id) AS likes_number, (SELECT COUNT (*) FROM comments WHERE comments.post_id = posts.Id) AS comments_number, (SELECT users.username FROM users WHERE posts.user_id = users.id) AS post_creator FROM posts";
 
   dataBaseConnection.query(allPosts, function (error, result) {
     if (error) {
@@ -176,7 +176,7 @@ exports.getAllPosts = (req, res, next) => {
 exports.getOnePost = (req, res, next) => {
   const postId = req.params.id;
   let onePost =
-    "SELECT * FROM posts, users WHERE Id = ? AND posts.user_id = users.id";
+    "SELECT posts.Id, posts.user_id, description, imageUrl, title, (SELECT COUNT (*) FROM likes WHERE likes.post_id = posts.Id) AS likes_number, (SELECT COUNT (*) FROM comments WHERE comments.post_id = posts.Id) AS comments_number, (SELECT users.username FROM users WHERE posts.user_id = users.id) AS post_creator FROM posts, users WHERE Id = ? AND posts.user_id = users.id";
   let onePostValues = [postId];
   onePost = mysql.format(onePost, onePostValues);
   dataBaseConnection.query(onePost, function (error, result) {
@@ -190,7 +190,7 @@ exports.getOnePost = (req, res, next) => {
 
 exports.getPostsByUser = (req, res, next) => {
   let postsByUser =
-    "SELECT * FROM posts, users WHERE user_id = ? AND posts.user_id = users.id";
+    "SELECT posts.Id, posts.user_id, description, imageUrl, title, (SELECT COUNT (*) FROM likes WHERE likes.post_id = posts.Id) AS likes_number, (SELECT COUNT (*) FROM comments WHERE comments.post_id = posts.Id) AS comments_number, (SELECT users.username FROM users WHERE posts.user_id = users.id) AS post_creator FROM posts WHERE posts.user_id = ?";
   let postsByUserValues = [req.auth.userId];
   postsByUser = mysql.format(postsByUser, postsByUserValues);
   dataBaseConnection.query(postsByUser, function (error, result) {

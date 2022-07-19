@@ -3,14 +3,19 @@
     flex-direction: row;
     border: none;
     color: $color-1;
-    background-color: #F8F8FF;
-    &__number{
+    background-color: white;
+    .notLiked{
+        color: $color-3;
+        margin-left: 3px;
+    }
+    .liked {
+        color: $color-1;
         margin-left: 3px;
     }
     .emptyLike{
         font-weight: bold;
         background-clip: text;
-        color: black;
+        color: $color-3;
         transition: 0.3s ease;
         &:hover {
             transform: scale(120%);
