@@ -70,11 +70,14 @@ const Profil = () => {
 
   return (
     <div className="Profil">
-      <h3>Bonjour {userProfil.username},</h3>
-      <h4>
-        Sur cette page vous pouvez modifier votre pseudo,
-        <br /> consulter vos posts ou même supprimer votre compte
-      </h4>
+      <div className="profil-header">
+        <h3>Bonjour {userProfil.username},</h3>
+        <h4>
+          Sur cette page vous pouvez modifier votre pseudo,
+          <br /> consulter vos posts ou même supprimer votre compte
+        </h4>
+      </div>
+
       <div className="userProfil">
         <div className="userOptions">
           <div className="modifyUser">

@@ -42,6 +42,23 @@ $background-color: white;
   justify-content: center;
 }
 
+$breakpoints: (
+  tablets: 992px,
+  mobile: 768px 
+);
+
+@mixin tabletScreen {
+  @media screen and (max-width: map-get($breakpoints, tablets)){
+    @content
+  }
+};
+
+@mixin mobileScreen {
+  @media screen and (max-width: map-get($breakpoints, mobile)) {
+    @content
+  }
+};
+
 * {
   padding: 0;
   margin: 0;
@@ -54,6 +71,12 @@ body {
   font-family: $font-reg;
   max-width: 80%;
   margin: auto;
+  @include tabletScreen {
+    max-width: 100%;
+  }
+  @include mobileScreen{
+    max-width: 100%;
+  }
 }
 li {
   list-style-type: none;

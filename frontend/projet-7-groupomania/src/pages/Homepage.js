@@ -31,9 +31,12 @@ const Homepage = () => {
           </h4>
         </div>
         <div className="profil">
-          <h4>
-            <Link to="/userprofil">Votre profil</Link>
-          </h4>
+          <div className="user-profil">
+            <h4>
+              <Link to="/userprofil">Votre profil</Link>
+            </h4>
+          </div>
+
           <div className="user-logout">
             <Link to="/connexion" className="user-logout__text">
               Se déconnecter

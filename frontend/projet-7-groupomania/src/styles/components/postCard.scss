@@ -1,12 +1,19 @@
 .post-card {
+    width: 750px;
     display: flex;
     flex-direction: column;
     box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
     border: 2px solid $color-2;
     background-color: white;
-    border-radius: 10px;
+    border-radius: 15px;
     margin: 10px;
     margin-bottom: 25px;
+    @include tabletScreen {
+        width: 500px;
+    }
+    @include mobileScreen {
+        width: 300px
+    }
     .post-header {
         margin: 15px;
         display: flex;
@@ -21,6 +28,9 @@
             &__modify {
                 border: none;
                 margin-right: 1px;
+                @include tabletScreen {
+                    margin-right: 10px;
+                }
             }
             .icone-option {     
                 display: flex;
@@ -45,12 +55,20 @@
         font-family: $font-reg;
         font-size: 15px;
         margin: 15px;
+        &__description {
+            margin-left: 10px
+        }
         &__container {
             @include rowCenter;
             &__image {
                 max-width: 750px;
-                max-height: 100%;
                 object-fit: cover;
+                @include tabletScreen {
+                    max-width: 450px;
+                }
+                @include mobileScreen {
+                    max-width: 250px;
+                }
             }
             
         }
@@ -90,7 +108,10 @@
                 &__number {
                     margin-left: 5px;
                 }
-            }             
+            }
+            .show-comments {
+                transition: 0.5s ease;
+            }      
         }
     }
 }

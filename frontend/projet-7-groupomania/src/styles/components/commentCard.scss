@@ -1,0 +1,24 @@
+.comment-card {
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid $color-2;
+    margin-bottom: 15px;
+    .comment-header h5 {
+        margin-left: 10px;
+        font-family: $font-bold;
+        font-size: 16px;
+    }
+    .comment-core {
+        margin-left: 15px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        .comment-content {
+            max-width: 500px;
+            font-family: $font-reg;
+            font-size: 15px;
+            overflow-x: auto;
+            word-wrap: break-word;
+        }
+    }
+}

@@ -54,11 +54,15 @@ const PostCard = ({ post, user, setAllPosts }) => {
           <p>{post.description}</p>
         </div>
         <div className="post-body__container">
-          <img
-            className="post-body__container__image"
-            src={post.imageUrl}
-            alt="post"
-          />
+          {post.imageUrl ? (
+            <img
+              className="post-body__container__image"
+              src={post.imageUrl}
+              alt="post"
+            />
+          ) : (
+            ""
+          )}
         </div>
       </div>
 

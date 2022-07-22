@@ -44,7 +44,7 @@ const NewPost = () => {
   };
 
   return (
-    <div>
+    <div className="new-post">
       <form action="post" className="form">
         <div className="form-group">
           <label htmlFor="title">Titre du post</label>

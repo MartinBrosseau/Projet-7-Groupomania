@@ -8,6 +8,17 @@ const AllPosts = () => {
   const { token } = useContext(UserToken);
   const [allPosts, setAllPosts] = useState([]);
   const [userProfil, setUserProfil] = useState([]);
+  const [count, setCount] = useState(3);
+
+  const loadMore = () => {
+    if (
+      window.innerHeight + document.documentElement.scrollTop + 1 >
+      document.scrollingElement.scrollHeight
+    ) {
+      setAllPosts(allPosts);
+      setCount(count + 3);
+    }
+  };
 
   useEffect(() => {
     axios
@@ -15,10 +26,16 @@ const AllPosts = () => {
         headers: { authorization: `Bearer ${token}` },
         params: { id: allPosts.id },
       })
-      .then((res) => setAllPosts(res.data));
-  }, [token, allPosts.id, allPosts.user_id]);
+      .then((res) => {
+        const postsArray = res.data.slice(0, count);
+        setAllPosts(postsArray);
+      });
+  }, [token, allPosts.id, allPosts.user_id, count]);
 
-  console.log(allPosts);
+  useEffect(() => {
+    window.addEventListener("scroll", loadMore);
+    return () => window.removeEventListener("scroll", loadMore);
+  });
 
   useEffect(() => {
     axios

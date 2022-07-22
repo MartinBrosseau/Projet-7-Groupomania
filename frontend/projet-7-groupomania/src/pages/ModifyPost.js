@@ -8,6 +8,11 @@ const ModifyPost = () => {
   const { token } = useContext(UserToken);
   const location = useLocation();
 
+  const backToHomepage = () => {
+    let path = "/homepage";
+    navigate(path);
+  };
+
   const [defaultValues, setDefaultValues] = useState({
     title: "",
     img: "",
@@ -105,14 +110,18 @@ const ModifyPost = () => {
               defaultValue={defaultValues.description}
             />
           </div>
-
-          <button
-            className="btn btn-primary btn-lg"
-            type="submit"
-            onClick={handleSubmit}
-          >
-            Modifier
-          </button>
+          <div className="buttons">
+            <button
+              className="btn btn-primary btn-lg"
+              type="submit"
+              onClick={handleSubmit}
+            >
+              Modifier
+            </button>
+            <button className="btn btn-primary btn" onClick={backToHomepage}>
+              Annuler
+            </button>
+          </div>
         </form>
       </div>
     </div>

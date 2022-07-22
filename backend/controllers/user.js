@@ -15,32 +15,46 @@ exports.signup = (req, res, next) => {
     .hash(userPassword, 10)
     .then((hash) => {
       let saveUser =
-        "INSERT INTO users ( username, email, password ) VALUES ( ?, ?, ? )";
+        "INSERT INTO users ( username, email, password, admin ) VALUES ( ?, ?, ?, 0 )";
       let saveUserValues = [userUsername, userEmail, hash];
       saveUser = mysql.format(saveUser, saveUserValues);
-      let findUser = "SELECT * FROM users WHERE email = ?";
+      let findUser = "SELECT id FROM users WHERE email = ?";
       let findUserValues = [userEmail];
       findUser = mysql.format(findUser, findUserValues);
-      dataBaseConnection.query(
-        findUser !== "" ? error : saveUser,
-        function (error, result) {
-          console.log(result);
-          if (error) {
-            return res.status(400).json({ error: "L'inscription a échouée !" });
+      dataBaseConnection.query(findUser, function (error, alreadyExist) {
+        console.log(alreadyExist);
+        if (error) {
+          return res
+            .status(400)
+            .json({ error: "Impossible de récupérer les données" });
+        } else {
+          if (alreadyExist.length !== 0) {
+            return res
+              .status(400)
+              .json({ error: "Cette adresse mail est déja utilisée !" });
           } else {
-            return res.status(201).json({
-              message: console.log("Utilisateur inscrit !"),
-              userId: result[0].id,
-              isAdmin: result[0].admin,
-              token: jwt.sign(
-                { userId: result[0].id, isAdmin: result[0].admin },
-                `${TOKEN}`,
-                { expiresIn: "24h" }
-              ),
+            dataBaseConnection.query(saveUser, function (error, result) {
+              console.log(result);
+              if (error) {
+                return res
+                  .status(400)
+                  .json({ error: "L'inscription a échouée" });
+              } else {
+                return res.status(201).json({
+                  message: console.log("Utilisateur inscrit !"),
+                  userId: result.insertId,
+                  isAdmin: 0,
+                  token: jwt.sign(
+                    { userId: result.insertId, isAdmin: 0 },
+                    `${TOKEN}`,
+                    { expiresIn: "24h" }
+                  ),
+                });
+              }
             });
           }
         }
-      );
+      });
     })
     .catch((error) => res.status(500).json({ error: "server issue" }));
 };

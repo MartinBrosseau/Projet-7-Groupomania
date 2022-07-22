@@ -64,7 +64,7 @@ const AddComment = ({
 
               <br />
               <button
-                className="btn btn-primary "
+                className="btn btn-primary"
                 type="submit"
                 onClick={handleSubmit}
               >

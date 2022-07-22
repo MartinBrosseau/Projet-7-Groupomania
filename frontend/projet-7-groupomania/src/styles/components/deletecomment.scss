@@ -1,0 +1,10 @@
+button {
+    border: none;
+    background-color: white;
+    color: $color-1;
+    transition: 0.4s ease;
+    &:hover {
+        color: $color-2;
+        transform: scale(1.2);
+    }
+}
