@@ -38,7 +38,7 @@ app.use(
     cookie: {
       secure: true,
       httpOnly: true,
-      domain: "http://localhost:3001",
+      domain: "http://localhost:3000",
       expires: cookieExpire,
     },
   })

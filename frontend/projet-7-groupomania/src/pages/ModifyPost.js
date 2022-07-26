@@ -55,7 +55,7 @@ const ModifyPost = () => {
     formData.append("image", imgFiled.current.files[0] || defaultValues.img);
     axios
       .put(
-        `http://localhost:3000/api/post/modifyPost`,
+        `${process.env.REACT_APP_API_URL}/post/modifyPost`,
         formData,
 
         {

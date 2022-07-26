@@ -14,7 +14,7 @@ const DeleteComment = ({
   const { token } = useContext(UserToken);
   const deleteComment = () => {
     axios
-      .delete("http://localhost:3000/api/comment/deleteComment", {
+      .delete(`${process.env.REACT_APP_API_URL}/comment/deleteComment`, {
         headers: { authorization: `Bearer ${token}` },
         params: { commentId: comment.ID },
       })

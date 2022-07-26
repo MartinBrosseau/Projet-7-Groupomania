@@ -5,7 +5,7 @@
 ## OpenClassrooms last project, web dev formation
 
 - Build the first version of the Groupomania social network using any Frontend framework (React, Vue, Angular, etc)
-- This project is developped with React
+- This project is developped with `React`
 
 ---
 
@@ -15,10 +15,10 @@
 
 ##### Required
 
-- Node
-- Npm
-- React
-- MySQL
+- `Node`
+- `Npm`
+- `React`
+- `MySQL`
 
 Clone or download the repository, then follow this instruction:
 
@@ -33,22 +33,24 @@ Clone or download the repository, then follow this instruction:
 ---
 
 - Open a terminal and navigate to the "backend" folder
-- Execute npm install
-- Execute nodemon server to start the backend
+- Execute `npm install`
+- Execute `nodemon server` to start the backend
+
+* Edit the `.env` backend file for the database informations
 
 ##### Frontend :
 
 ---
 
-- Open another terminal and navigate to the "fronted" folder
-- Execute npm install
-- Execute npm start to start the frontend
+- Open another terminal and navigate to the "frontend" folder
+- Execute `npm install`
+- Execute `npm start` to start the frontend
 
 ##### Features :
 
 ---
 
-- Signup and Log in pages, with minimal informations to keep it simple (mail and password for now)
+- Signup and Login pages, with minimal informations to keep it simple (mail and password)
 - Users can disconnect
 - User session is persistent
 - Connection data are securised
@@ -65,4 +67,4 @@ Clone or download the repository, then follow this instruction:
 
 ---
 
-- There is an admin to moderate the forum : the admin can delete any posts
+- There is an admin to moderate the forum : the admin can delete any posts if needed

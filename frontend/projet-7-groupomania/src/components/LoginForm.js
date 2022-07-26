@@ -30,7 +30,7 @@ const LoginForm = () => {
     event.preventDefault();
     const data = loginInfos;
     axios
-      .post(`http://localhost:3000/api/auth/login`, { ...data }) //.catch
+      .post(`${process.env.REACT_APP_API_URL}/auth/login`, { ...data }) //.catch
       .then(function (res) {
         setToken(res.data.token);
         console.log(token);

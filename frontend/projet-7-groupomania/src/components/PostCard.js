@@ -10,6 +10,17 @@ const PostCard = ({ post, user, setAllPosts }) => {
   const [showComments, setShowComments] = useState(false);
   const [commentsNumber, setCommentsNumber] = useState(post.comments_number);
   const [likesNumber, setLikesNumber] = useState(post.likes_number);
+  const timeStamp = post.creationDate;
+  const dateFormat = (timeStamp) => {
+    const options = {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+    };
+    return new Date(timeStamp).toLocaleDateString(undefined, options);
+  };
 
   return (
     <div className="post-card" key={post.id}>
@@ -20,7 +31,9 @@ const PostCard = ({ post, user, setAllPosts }) => {
           </h4>
         </div>
         <div className="post-header__title">
-          <h4>{post.title}</h4>
+          <h4>
+            {post.title} <small>le {dateFormat(timeStamp)}</small>
+          </h4>
         </div>
         <div className="post-header__options">
           {post.user_id === user.id && (

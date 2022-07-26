@@ -9,7 +9,7 @@ const DeletePost = ({ postId, postCreator, setAllPosts }) => {
 
   const deletePost = () => {
     axios
-      .delete("http://localhost:3000/api/post/deletePost", {
+      .delete(`${process.env.REACT_APP_API_URL}/post/deletePost`, {
         headers: { authorization: `Bearer ${token}` },
         params: { postId, postCreator },
       })

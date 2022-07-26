@@ -10,7 +10,7 @@ const Comments = ({ post, user, setCommentsNumber }) => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/comment/getComments", {
+      .get(`${process.env.REACT_APP_API_URL}/comment/getComments`, {
         headers: { authorization: `Bearer ${token}` },
         params: { postId: post.Id },
       })

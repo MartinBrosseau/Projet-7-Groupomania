@@ -17,7 +17,7 @@ const LikePost = ({ post, likesNumber, setLikesNumber, user }) => {
   const likePost = () => {
     const data = liked;
     axios
-      .post("http://localhost:3000/api/post/likePost", data, {
+      .post(`${process.env.REACT_APP_API_URL}/post/likePost`, data, {
         headers: { authorization: `Bearer ${token}` },
         params: { postId: post.Id },
       })

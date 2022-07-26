@@ -7,10 +7,12 @@
     .notLiked{
         color: $color-3;
         margin-left: 3px;
+       
     }
     .liked {
         color: $color-1;
         margin-left: 3px;
+       
     }
     .emptyLike{
         font-weight: bold;
@@ -29,6 +31,7 @@
         transition: 0.3s ease;
         &:hover {
             transform: scale(120%);
+            color: $color-3;
         }
     }
      

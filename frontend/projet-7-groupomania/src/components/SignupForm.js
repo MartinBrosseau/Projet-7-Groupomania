@@ -30,7 +30,7 @@ const SignupForm = () => {
     event.preventDefault();
     const data = signupInfos;
     axios
-      .post(`http://localhost:3000/api/auth/signup`, { ...data })
+      .post(`${process.env.REACT_APP_API_URL}/auth/signup`, { ...data })
       .then(function (res) {
         setToken(res.data.token);
         console.log(token);

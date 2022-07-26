@@ -22,7 +22,7 @@ const AllPosts = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/post/getAllPosts", {
+      .get(`${process.env.REACT_APP_API_URL}/post/getAllPosts`, {
         headers: { authorization: `Bearer ${token}` },
         params: { id: allPosts.id },
       })
@@ -39,7 +39,7 @@ const AllPosts = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/auth/userProfil", {
+      .get(`${process.env.REACT_APP_API_URL}/auth/userProfil`, {
         headers: { authorization: `Bearer ${token}` },
       })
       .then((res) => setUserProfil(res.data));

@@ -12,7 +12,7 @@ const Homepage = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/auth/userProfil", {
+      .get(`${process.env.REACT_APP_API_URL}/auth/userProfil`, {
         headers: { authorization: `Bearer ${token}` },
       })
       .then((res) => setUserProfil(res.data));

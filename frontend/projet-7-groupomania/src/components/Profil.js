@@ -10,6 +10,11 @@ const Profil = () => {
   const [userProfil, setUserProfil] = useState([]);
   const [userPosts, setUserPosts] = useState([]);
 
+  const backToHomepage = () => {
+    let path = "/homepage";
+    navigate(path);
+  };
+
   useEffect(() => {
     axios
       .get("http://localhost:3000/api/post/getPostsByUser", {
@@ -45,7 +50,7 @@ const Profil = () => {
     const data = userInfos;
     axios
       .put(
-        `http://localhost:3000/api/auth/modifyUserProfil`,
+        `${process.env.REACT_APP_API_URL}/auth/modifyUserProfil`,
         {
           ...data,
         },
@@ -59,7 +64,7 @@ const Profil = () => {
 
   function deleteUser() {
     axios
-      .delete("http://localhost:3000/api/auth/deleteUser", {
+      .delete(`${process.env.REACT_APP_API_URL}/auth/deleteUser`, {
         headers: { authorization: `Bearer ${token}` },
         params: { id: userProfil.id },
       })
@@ -103,6 +108,9 @@ const Profil = () => {
                 Enregistrer
               </button>
             </form>
+            <button className="btn btn-primary" onClick={backToHomepage}>
+              Retour
+            </button>
           </div>
           <div className="deleteUser">
             <h4>
@@ -118,6 +126,7 @@ const Profil = () => {
             </button>
           </div>
         </div>
+
         <div className="userPosts">
           <h4>Vos posts :</h4>
           <div className="user-posts">

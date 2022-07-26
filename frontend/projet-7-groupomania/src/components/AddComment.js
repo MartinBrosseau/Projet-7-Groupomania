@@ -30,7 +30,7 @@ const AddComment = ({
     const data = commentText;
     axios
       .post(
-        "http://localhost:3000/api/comment/createComment",
+        `${process.env.REACT_APP_API_URL}/comment/createComment`,
         { ...data },
         {
           headers: { authorization: `Bearer ${token}` },

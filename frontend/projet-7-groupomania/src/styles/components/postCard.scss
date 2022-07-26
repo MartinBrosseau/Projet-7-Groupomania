@@ -19,6 +19,9 @@
         display: flex;
         justify-content: row;
         margin-bottom: 0px;
+        &__user {
+            white-space: nowrap;
+        }
         &__options {
             display: flex;
             flex-direction: row-reverse;

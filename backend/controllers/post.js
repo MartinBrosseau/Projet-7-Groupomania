@@ -160,9 +160,10 @@ exports.deletePost = (req, res, next) => {
 
 exports.getAllPosts = (req, res, next) => {
   let allPosts =
-    "SELECT posts.Id, posts.user_id, description, imageUrl, title, (SELECT COUNT (*) FROM likes WHERE likes.post_id = posts.Id) AS likes_number, (SELECT COUNT (*) FROM comments WHERE comments.post_id = posts.Id) AS comments_number, (SELECT users.username FROM users WHERE posts.user_id = users.id) AS post_creator FROM posts";
+    "SELECT posts.Id, posts.user_id, description, imageUrl, title, creationDate, (SELECT COUNT (*) FROM likes WHERE likes.post_id = posts.Id) AS likes_number, (SELECT COUNT (*) FROM comments WHERE comments.post_id = posts.Id) AS comments_number, (SELECT users.username FROM users WHERE posts.user_id = users.id) AS post_creator FROM posts";
 
   dataBaseConnection.query(allPosts, function (error, result) {
+    console.log(result);
     if (error) {
       return res
         .status(400)
@@ -176,7 +177,7 @@ exports.getAllPosts = (req, res, next) => {
 exports.getOnePost = (req, res, next) => {
   const postId = req.params.id;
   let onePost =
-    "SELECT posts.Id, posts.user_id, description, imageUrl, title, (SELECT COUNT (*) FROM likes WHERE likes.post_id = posts.Id) AS likes_number, (SELECT COUNT (*) FROM comments WHERE comments.post_id = posts.Id) AS comments_number, (SELECT users.username FROM users WHERE posts.user_id = users.id) AS post_creator FROM posts, users WHERE Id = ? AND posts.user_id = users.id";
+    "SELECT posts.Id, posts.user_id, description, imageUrl, title, creationDate, (SELECT COUNT (*) FROM likes WHERE likes.post_id = posts.Id) AS likes_number, (SELECT COUNT (*) FROM comments WHERE comments.post_id = posts.Id) AS comments_number, (SELECT users.username FROM users WHERE posts.user_id = users.id) AS post_creator FROM posts, users WHERE Id = ? AND posts.user_id = users.id";
   let onePostValues = [postId];
   onePost = mysql.format(onePost, onePostValues);
   dataBaseConnection.query(onePost, function (error, result) {
@@ -190,7 +191,7 @@ exports.getOnePost = (req, res, next) => {
 
 exports.getPostsByUser = (req, res, next) => {
   let postsByUser =
-    "SELECT posts.Id, posts.user_id, description, imageUrl, title, (SELECT COUNT (*) FROM likes WHERE likes.post_id = posts.Id) AS likes_number, (SELECT COUNT (*) FROM comments WHERE comments.post_id = posts.Id) AS comments_number, (SELECT users.username FROM users WHERE posts.user_id = users.id) AS post_creator FROM posts WHERE posts.user_id = ?";
+    "SELECT posts.Id, posts.user_id, description, imageUrl, title, creationDate, (SELECT COUNT (*) FROM likes WHERE likes.post_id = posts.Id) AS likes_number, (SELECT COUNT (*) FROM comments WHERE comments.post_id = posts.Id) AS comments_number, (SELECT users.username FROM users WHERE posts.user_id = users.id) AS post_creator FROM posts WHERE posts.user_id = ?";
   let postsByUserValues = [req.auth.userId];
   postsByUser = mysql.format(postsByUser, postsByUserValues);
   dataBaseConnection.query(postsByUser, function (error, result) {

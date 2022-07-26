@@ -31,7 +31,7 @@ const NewPost = () => {
     formData.append("image", imgFiled.current.files[0]);
     axios
       .post(
-        `http://localhost:3000/api/post/createPost`,
+        `${process.env.REACT_APP_API_URL}/post/createPost`,
         formData,
 
         {
