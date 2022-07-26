@@ -20,7 +20,7 @@
 - `React`
 - `MySQL`
 
-Clone or download the repository, then follow this instruction:
+Clone or download the repository, then follow the instructions:
 
 ##### Database :
 
