@@ -6,7 +6,7 @@ import { UserToken } from "../components/UserToken";
 
 //react conttext useContext
 const LoginForm = () => {
-  const { token, setToken } = useContext(UserToken);
+  const { setToken } = useContext(UserToken);
 
   let [loginInfos, setLoginInfos] = useState({
     email: "",
@@ -33,7 +33,7 @@ const LoginForm = () => {
       .post(`${process.env.REACT_APP_API_URL}/auth/login`, { ...data }) //.catch
       .then(function (res) {
         setToken(res.data.token);
-        console.log(token);
+        localStorage.setItem("token", res.data.token);
         navigate("/homepage");
       });
   };

@@ -2,10 +2,10 @@ import React, { useContext } from "react";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { UserToken } from "../projet-7-groupomania/src/components/UserToken";
+import { UserToken } from "../components/UserToken";
 
 const SignupForm = () => {
-  const { token, setToken } = useContext(UserToken);
+  const { setToken } = useContext(UserToken);
 
   const [signupInfos, setSignupInfos] = useState({
     username: "",
@@ -33,7 +33,7 @@ const SignupForm = () => {
       .post(`${process.env.REACT_APP_API_URL}/auth/signup`, { ...data })
       .then(function (res) {
         setToken(res.data.token);
-        console.log(token);
+        localStorage.setItem("token", res.data.token);
         navigate("/homepage");
       });
   };

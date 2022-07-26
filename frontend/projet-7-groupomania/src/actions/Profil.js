@@ -17,7 +17,7 @@ const Profil = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/post/getPostsByUser", {
+      .get(`${process.env.REACT_APP_API_URL}/post/getPostsByUser`, {
         headers: { authorization: `Bearer ${token}` },
       })
       .then((res) => setUserPosts(res.data));
@@ -25,7 +25,7 @@ const Profil = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/auth/userProfil", {
+      .get(`${process.env.REACT_APP_API_URL}/api/auth/userProfil`, {
         headers: { authorization: `Bearer ${token}` },
       })
       .then((res) => setUserProfil(res.data));

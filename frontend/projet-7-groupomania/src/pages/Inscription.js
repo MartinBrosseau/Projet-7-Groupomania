@@ -1,6 +1,6 @@
 import React from "react";
 import Navigation from "../components/Navigation";
-import SignupForm from "../components/SignupForm";
+import SignupForm from "../actions/SignupForm";
 
 const Inscription = () => {
   return (

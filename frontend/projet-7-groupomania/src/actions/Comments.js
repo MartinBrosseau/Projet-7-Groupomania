@@ -1,8 +1,8 @@
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import AddComment from "./AddComment";
-import CommentCard from "./CommentCard";
-import { UserToken } from "./UserToken";
+import CommentCard from "../components/CommentCard";
+import { UserToken } from "../components/UserToken";
 
 const Comments = ({ post, user, setCommentsNumber }) => {
   const { token } = useContext(UserToken);

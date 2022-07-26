@@ -1,5 +1,5 @@
 import React from "react";
-import DeleteComment from "./DeleteComment";
+import DeleteComment from "../actions/DeleteComment";
 
 const CommentCard = ({
   comment,

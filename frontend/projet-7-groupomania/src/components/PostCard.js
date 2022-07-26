@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import DeletePost from "./DeletePost";
-import Comments from "./Comments";
-import LikePost from "./LikePost";
+import DeletePost from "../actions/DeletePost";
+import Comments from "../actions/Comments";
+import LikePost from "../actions/LikePost";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen, faMessage } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";

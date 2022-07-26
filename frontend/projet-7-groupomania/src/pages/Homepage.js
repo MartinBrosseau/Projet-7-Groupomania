@@ -38,10 +38,18 @@ const Homepage = () => {
           </div>
 
           <div className="user-logout">
-            <Link to="/connexion" className="user-logout__text">
+            <Link
+              to="/connexion"
+              className="user-logout__text"
+              onClick={localStorage.clear()}
+            >
               Se déconnecter
             </Link>
-            <Link to="/connexion" className="user-logout__logo">
+            <Link
+              to="/connexion"
+              className="user-logout__logo"
+              onClick={localStorage.clear()}
+            >
               <FontAwesomeIcon icon={faArrowRightFromBracket} />
             </Link>
           </div>

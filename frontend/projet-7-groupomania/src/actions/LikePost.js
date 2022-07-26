@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import axios from "axios";
-import { UserToken } from "./UserToken";
+import { UserToken } from "../components/UserToken";
 
 const LikePost = ({ post, likesNumber, setLikesNumber, user }) => {
   const { token } = useContext(UserToken);

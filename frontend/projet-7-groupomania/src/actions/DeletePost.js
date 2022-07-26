@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
-import { UserToken } from "./UserToken";
+import { UserToken } from "../components/UserToken";
 import axios from "axios";
 
 const DeletePost = ({ postId, postCreator, setAllPosts }) => {
