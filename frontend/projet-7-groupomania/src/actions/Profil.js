@@ -1,8 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState, useContext } from "react";
-import { UserToken } from "./UserToken";
+import { UserToken } from "../components/UserToken";
 import { useNavigate } from "react-router-dom";
-import PostCard from "./PostCard";
+import PostCard from "../components/PostCard";
 
 const Profil = () => {
   const navigate = useNavigate();

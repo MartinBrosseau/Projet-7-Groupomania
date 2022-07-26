@@ -2,13 +2,13 @@ import React, { useContext } from "react";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { UserToken } from "./UserToken";
+import { UserToken } from "../components/UserToken";
 
-const SignupForm = () => {
+//react conttext useContext
+const LoginForm = () => {
   const { token, setToken } = useContext(UserToken);
 
-  const [signupInfos, setSignupInfos] = useState({
-    username: "",
+  let [loginInfos, setLoginInfos] = useState({
     email: "",
     password: "",
   });
@@ -16,7 +16,7 @@ const SignupForm = () => {
   const handleChange = (event) => {
     const { value, name } = event.target;
 
-    setSignupInfos((prevalue) => {
+    setLoginInfos((prevalue) => {
       return {
         ...prevalue,
         [name]: value,
@@ -28,9 +28,9 @@ const SignupForm = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = signupInfos;
+    const data = loginInfos;
     axios
-      .post(`${process.env.REACT_APP_API_URL}/auth/signup`, { ...data })
+      .post(`${process.env.REACT_APP_API_URL}/auth/login`, { ...data }) //.catch
       .then(function (res) {
         setToken(res.data.token);
         console.log(token);
@@ -42,20 +42,6 @@ const SignupForm = () => {
     <div>
       <form className="form" action="post">
         <div className="form-group">
-          <label htmlFor="username">
-            Nom d'utilisateur
-            <input
-              className="form-control"
-              type="text"
-              onChange={handleChange}
-              id="username"
-              name="username"
-              placeholder="ex: Martin"
-            />
-          </label>
-        </div>
-
-        <div className="form-group">
           <label htmlFor="email">
             Adresse email
             <input
@@ -64,7 +50,7 @@ const SignupForm = () => {
               onChange={handleChange}
               id="email"
               name="email"
-              placeholder="ex: martin@gmail.com"
+              placeholder="myemail@mail.com"
             />
           </label>
         </div>
@@ -87,12 +73,16 @@ const SignupForm = () => {
           className="btn btn-primary btn-lg"
           type="submit"
           onClick={handleSubmit}
+          {...() => {
+            const token = handleSubmit();
+            setToken(token);
+          }}
         >
-          Inscription
+          Connexion
         </button>
       </form>
     </div>
   );
 };
 
-export default SignupForm;
+export default LoginForm;

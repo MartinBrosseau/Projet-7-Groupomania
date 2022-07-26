@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import PostCard from "./PostCard";
+import PostCard from "../components/PostCard";
 import { useContext } from "react";
-import { UserToken } from "./UserToken";
+import { UserToken } from "../components/UserToken";
 
 const AllPosts = () => {
   const { token } = useContext(UserToken);

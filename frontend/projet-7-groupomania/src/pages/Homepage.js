@@ -1,6 +1,6 @@
 import { React, useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
-import AllPosts from "../components/AllPosts";
+import AllPosts from "../actions/AllPosts";
 import axios from "axios";
 import { UserToken } from "../components/UserToken";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

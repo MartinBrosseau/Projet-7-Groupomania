@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useState, useContext } from "react";
-import { UserToken } from "./UserToken";
+import { UserToken } from "../projet-7-groupomania/src/components/UserToken";
 
 const AddComment = ({
   post,

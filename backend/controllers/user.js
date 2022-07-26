@@ -22,7 +22,6 @@ exports.signup = (req, res, next) => {
       let findUserValues = [userEmail];
       findUser = mysql.format(findUser, findUserValues);
       dataBaseConnection.query(findUser, function (error, alreadyExist) {
-        console.log(alreadyExist);
         if (error) {
           return res
             .status(400)

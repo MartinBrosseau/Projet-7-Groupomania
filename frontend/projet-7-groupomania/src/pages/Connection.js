@@ -1,6 +1,6 @@
 import React from "react";
 import Navigation from "../components/Navigation";
-import LoginForm from "../components/LoginForm";
+import LoginForm from "../actions/LoginForm";
 
 const Connection = () => {
   return (
