@@ -26,7 +26,7 @@ Clone or download the repository, then follow the instructions:
 
 ---
 
-- Import in database the "base groupo.sql" file
+- Import in database the `"Databse Groupomania.sql"` file
 
 ##### Backend :
 
