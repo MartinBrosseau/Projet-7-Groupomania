@@ -1,12 +1,12 @@
 import axios from "axios";
-import React, { useEffect, useState, useContext } from "react";
-import { UserToken } from "../components/UserToken";
+import React, { useEffect, useState } from "react";
+
 import { useNavigate } from "react-router-dom";
 import PostCard from "../components/PostCard";
 
 const Profil = () => {
   const navigate = useNavigate();
-  const { token } = useContext(UserToken);
+  const token = sessionStorage.getItem("token");
   const [userProfil, setUserProfil] = useState([]);
   const [userPosts, setUserPosts] = useState([]);
 

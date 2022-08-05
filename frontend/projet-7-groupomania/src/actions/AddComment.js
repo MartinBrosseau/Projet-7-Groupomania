@@ -1,6 +1,5 @@
 import axios from "axios";
-import React, { useState, useContext } from "react";
-import { UserToken } from "../components/UserToken";
+import React, { useState } from "react";
 
 const AddComment = ({
   post,
@@ -9,7 +8,7 @@ const AddComment = ({
   allComments,
   setCommentsNumber,
 }) => {
-  const { token } = useContext(UserToken);
+  const token = sessionStorage.getItem("token");
   const [commentText, setCommentText] = useState({
     content: "",
   });
@@ -38,6 +37,7 @@ const AddComment = ({
         }
       )
       .then((res) => {
+        console.log(data);
         const newCommentsList = [...allComments];
         newCommentsList.push(data);
         setAllComments(newCommentsList);

@@ -1,11 +1,10 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import axios from "axios";
-import { UserToken } from "../components/UserToken";
 
 const LikePost = ({ post, likesNumber, setLikesNumber, user }) => {
-  const { token } = useContext(UserToken);
+  const token = sessionStorage.getItem("token");
   const [liked, setLiked] = useState({
     user_id: user.id,
     post_id: post.Id,

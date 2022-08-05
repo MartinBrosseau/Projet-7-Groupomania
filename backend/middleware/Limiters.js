@@ -10,7 +10,7 @@ const signUpLimiter = limiter.rateLimit({
   legacyHeaders: false,
 });
 
-//Limite le nombre de requête (création posts notamment) a 60 par heure
+//Limite le nombre de requête (création de posts) a 60 par heure
 const requestLimiter = limiter.rateLimit({
   windowMs: 60 * 60 * 1000,
   max: 60,

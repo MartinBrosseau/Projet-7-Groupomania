@@ -1,14 +1,17 @@
-import { React, useEffect, useState, useContext } from "react";
+import { React, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import AllPosts from "../actions/AllPosts";
 import axios from "axios";
-import { UserToken } from "../components/UserToken";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 
 const Homepage = () => {
-  const { token } = useContext(UserToken);
+  const token = sessionStorage.getItem("token");
   const [userProfil, setUserProfil] = useState([]);
+
+  const clearStorage = () => {
+    sessionStorage.clear();
+  };
 
   useEffect(() => {
     axios
@@ -41,14 +44,14 @@ const Homepage = () => {
             <Link
               to="/connexion"
               className="user-logout__text"
-              onClick={localStorage.clear()}
+              onClick={clearStorage}
             >
               Se déconnecter
             </Link>
             <Link
               to="/connexion"
               className="user-logout__logo"
-              onClick={localStorage.clear()}
+              onClick={clearStorage}
             >
               <FontAwesomeIcon icon={faArrowRightFromBracket} />
             </Link>

@@ -7,6 +7,7 @@
         margin-left: 10px;
         font-family: $font-bold;
         font-size: 16px;
+        color: white;
     }
     .comment-core {
         margin-left: 15px;
@@ -14,6 +15,7 @@
         flex-direction: row;
         justify-content: space-between;
         .comment-content {
+            color: white;
             max-width: 500px;
             font-family: $font-reg;
             font-size: 15px;

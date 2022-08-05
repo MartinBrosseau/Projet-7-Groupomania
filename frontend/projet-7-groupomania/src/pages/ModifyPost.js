@@ -1,11 +1,10 @@
-import React, { useRef, useState, useContext, useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import axios from "axios";
-import { UserToken } from "../components/UserToken";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const ModifyPost = () => {
   const navigate = useNavigate();
-  const { token } = useContext(UserToken);
+  const token = sessionStorage.getItem("token");
   const location = useLocation();
 
   const backToHomepage = () => {

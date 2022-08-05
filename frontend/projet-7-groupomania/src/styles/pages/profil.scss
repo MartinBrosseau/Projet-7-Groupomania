@@ -1,4 +1,7 @@
 .Profil {
+    h3, h4, label{
+        color: whitesmoke;
+    }
     @include tabletScreen {
         display: flex;
         flex-direction: column;

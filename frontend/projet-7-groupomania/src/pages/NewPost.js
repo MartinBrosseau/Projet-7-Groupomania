@@ -1,11 +1,10 @@
-import React, { useRef, useContext, useState } from "react";
+import React, { useRef, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { UserToken } from "../components/UserToken";
 
 const NewPost = () => {
   const navigate = useNavigate();
-  const { token } = useContext(UserToken);
+  const token = sessionStorage.getItem("token");
   const imgFiled = useRef(null);
   const [postInfos, setPostInfos] = useState({
     title: "",

@@ -12,7 +12,8 @@ const CommentCard = ({
     <div className="comment-card">
       <div className="comment-header">
         <h5>
-          {comment.username} <small>a réagi</small>
+          {comment.username}
+          <small> a réagi</small>
         </h5>
       </div>
       <div className="comment-core">

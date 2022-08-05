@@ -2,11 +2,10 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
-    margin: 25px;
-    @include tabletScreen {
+    margin: 25px; 
+    @include mobileScreen {
         flex-direction: column;
-        align-items: center;
-    }
+    } 
 }
 
 h1 {
@@ -16,6 +15,15 @@ h1 {
     margin: 25px;
 }
 
+.container-fluid {
+    h1 {
+        color: whitesmoke;
+    }
+    small {
+        color: lightgrey;
+    }
+}
+
 .posts {
     width: 80%;
     margin: auto;
@@ -23,10 +31,13 @@ h1 {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
-    border: 2px solid $color-2;
-    background-color: #F8F8FF;
-    border-radius: 10px;
+    box-shadow: 0 .5rem 1rem rgb(63, 0, 0);
+    border: 1px solid $color-3;
+    background-color: rgb(50, 50, 50);
+    border-radius: 0px;
+    h3 {
+        color: white;
+    }
     @include tabletScreen {
         width: 90%;
     }

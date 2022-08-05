@@ -1,6 +1,6 @@
 import axios from "axios";
-import React, { useContext } from "react";
-import { UserToken } from "../components/UserToken";
+import React from "react";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 
@@ -11,7 +11,7 @@ const DeleteComment = ({
   setCommentsNumber,
   post,
 }) => {
-  const { token } = useContext(UserToken);
+  const token = sessionStorage.getItem("token");
   const deleteComment = () => {
     axios
       .delete(`${process.env.REACT_APP_API_URL}/comment/deleteComment`, {

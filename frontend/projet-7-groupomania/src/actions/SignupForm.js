@@ -33,7 +33,7 @@ const SignupForm = () => {
       .post(`${process.env.REACT_APP_API_URL}/auth/signup`, { ...data })
       .then(function (res) {
         setToken(res.data.token);
-        localStorage.setItem("token", res.data.token);
+        sessionStorage.setItem("token", res.data.token);
         navigate("/homepage");
       });
   };

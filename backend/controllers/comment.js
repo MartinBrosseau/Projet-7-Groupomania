@@ -18,7 +18,10 @@ exports.createComment = (req, res, next) => {
         .status(400)
         .json({ error: "La création du commentaire a échouée" });
     } else {
-      return res.status(200).json({ result });
+      console.log();
+      return res
+        .status(200)
+        .json({ message: "Commentaire crée avec succès !" });
     }
   });
 };

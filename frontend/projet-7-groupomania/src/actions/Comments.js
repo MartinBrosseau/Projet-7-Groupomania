@@ -1,11 +1,10 @@
 import axios from "axios";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import AddComment from "./AddComment";
 import CommentCard from "../components/CommentCard";
-import { UserToken } from "../components/UserToken";
 
 const Comments = ({ post, user, setCommentsNumber }) => {
-  const { token } = useContext(UserToken);
+  const token = sessionStorage.getItem("token");
   const [allComments, setAllComments] = useState([]);
 
   useEffect(() => {

@@ -3,26 +3,37 @@
     flex-direction: row;
     border: none;
     color: $color-1;
-    background-color: white;
+    background-color: $color-3;
     .notLiked{
-        color: $color-3;
+        color: white;
         margin-left: 3px;
-       
     }
     .liked {
         color: $color-1;
         margin-left: 3px;
-       
     }
     .emptyLike{
         font-weight: bold;
         background-clip: text;
-        color: $color-3;
+        color: whitesmoke;
         transition: 0.3s ease;
         &:hover {
             transform: scale(120%);
-            color: $color-1;
-            
+            color: $color-1;  
+        }
+        @include tabletScreen {
+            &:hover {
+                color: $color-1;
+            }
+            &:active {
+                color: white;
+            }
+        }
+        
+        @include mobileScreen {
+            &:hover {
+                color: white;
+            }
         }
     }
     .filledLike{
@@ -31,7 +42,20 @@
         transition: 0.3s ease;
         &:hover {
             transform: scale(120%);
-            color: $color-3;
+            color: white;
+        }
+        @include tabletScreen {
+            &:hover {
+                color: white;
+            }
+            &:active {
+                color: $color-1;
+            }
+        }
+        @include mobileScreen {
+            &:hover {
+                color: $color-1;
+            }
         }
     }
      

@@ -3,7 +3,11 @@ import DeletePost from "../actions/DeletePost";
 import Comments from "../actions/Comments";
 import LikePost from "../actions/LikePost";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPen, faMessage } from "@fortawesome/free-solid-svg-icons";
+import {
+  faPen,
+  faMessage,
+  faArrowUpFromBracket,
+} from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 
 const PostCard = ({ post, user, setAllPosts }) => {
@@ -25,23 +29,28 @@ const PostCard = ({ post, user, setAllPosts }) => {
   return (
     <div className="post-card" key={post.id}>
       <div className="post-header">
-        <div className="post-header__user">
-          <h4>
-            {post.post_creator} <small>a posté</small>
-          </h4>
+        <div className="post-header__infos">
+          <div className="post-header__user">
+            <h4>
+              {post.post_creator} <small>a posté </small> {post.title}
+            </h4>
+          </div>
+          <div className="post-header__timestamp">
+            <h4>
+              <small>le {dateFormat(timeStamp)}</small>
+            </h4>
+          </div>
         </div>
-        <div className="post-header__title">
-          <h4>
-            {post.title} <small>le {dateFormat(timeStamp)}</small>
-          </h4>
-        </div>
+
         <div className="post-header__options">
           {post.user_id === user.id && (
-            <DeletePost
-              postId={post.Id}
-              postCreator={post.user_id}
-              setAllPosts={setAllPosts}
-            />
+            <div className="post-header__options__delete">
+              <DeletePost
+                postId={post.Id}
+                postCreator={post.user_id}
+                setAllPosts={setAllPosts}
+              />
+            </div>
           )}
 
           {post.user_id === user.id && (
@@ -100,7 +109,8 @@ const PostCard = ({ post, user, setAllPosts }) => {
               onClick={() => setShowComments(!showComments)}
             />
           </div>
-          <div className="show-comments">
+
+          <div className={"show-comments"}>
             {showComments && (
               <Comments
                 post={post}
@@ -111,6 +121,15 @@ const PostCard = ({ post, user, setAllPosts }) => {
           </div>
         </div>
       </div>
+      {showComments && (
+        <div className="hide-comments">
+          <FontAwesomeIcon
+            icon={faArrowUpFromBracket}
+            size="lg"
+            onClick={() => setShowComments(false)}
+          />
+        </div>
+      )}
     </div>
   );
 };

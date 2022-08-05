@@ -1,18 +1,19 @@
+
 .post-card {
-    width: 750px;
+    width: 90%;
     display: flex;
     flex-direction: column;
     box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
-    border: 2px solid $color-2;
-    background-color: white;
+    border: 1px solid $color-1;
+    background-color: $color-3;
     border-radius: 15px;
     margin: 10px;
     margin-bottom: 25px;
     @include tabletScreen {
-        width: 500px;
+        width: 90%;
     }
     @include mobileScreen {
-        width: 300px
+        width: 90%;
     }
     .post-header {
         margin: 15px;
@@ -21,19 +22,27 @@
         margin-bottom: 0px;
         &__user {
             white-space: nowrap;
+            h4 {
+                color: whitesmoke;
+            }
         }
         &__options {
             display: flex;
             flex-direction: row-reverse;
+            align-items: flex-start;
             margin-bottom: 0px;
             margin-top: 10px;
             margin-left: auto;
             &__modify {
-                border: none;
-                margin-right: 1px;
+                border: 1px solid $color-2;
+                background-color: #F8F8FF;
+                margin-right: 5px;
                 @include tabletScreen {
                     margin-right: 10px;
                 }
+            &__delete {
+                background-color: #F8F8FF;
+            }
             }
             .icone-option {     
                 display: flex;
@@ -59,18 +68,22 @@
         font-size: 15px;
         margin: 15px;
         &__description {
-            margin-left: 10px
+            margin-left: 10px;
+            font-size: 17px;
+            font-weight: 500;
+            color: whitesmoke;
         }
         &__container {
             @include rowCenter;
             &__image {
-                max-width: 750px;
+                border: 1px solid $color-2;
+                max-width: 90%;
                 object-fit: cover;
                 @include tabletScreen {
-                    max-width: 450px;
+                    max-width: 90%;
                 }
                 @include mobileScreen {
-                    max-width: 250px;
+                    max-width: 90%;
                 }
             }
             
@@ -78,17 +91,20 @@
     }
     .post-footer {
         margin: 15px;
+        margin-left: 10%;
+        margin-right: 10%;
         display: flex;
         flex-direction: row-reverse;
-        justify-content: space-around;
+        justify-content: space-between;
+        align-items: flex-start;
+       
         &__reaction {   
             .like{
                 display: flex;
                 flex-direction: row-reverse;
                 align-items: center;
-                padding: 5px;
                 color: white;
-                background-color: white;
+                background-color: $color-1;
                 border-radius: 50%;
                 border: none;
             }
@@ -96,9 +112,9 @@
                 display: flex;
                 flex-direction: row-reverse;
                 align-items: center;
-                padding: 5px;
+                justify-content: flex-end;
                 color: #00acee;
-                background-color: white;
+                background-color: $color-3;
                 border-radius: 50%;
                 border: none;  
                 &__icone {
@@ -113,8 +129,19 @@
                 }
             }
             .show-comments {
-                transition: 0.5s ease;
+                display: flex;
+                flex-direction: column;
             }      
+        }
+    }
+    .hide-comments {
+        margin-left: auto;
+        margin-right: auto;
+        color: $color-1;
+        transition: 0.3s ease;
+        &:hover {
+            cursor: pointer;
+            transform: scale(125%);
         }
     }
 }

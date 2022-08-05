@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import PostCard from "../components/PostCard";
-import { useContext } from "react";
-import { UserToken } from "../components/UserToken";
 
 const AllPosts = () => {
-  const { token } = useContext(UserToken);
+  const token = sessionStorage.getItem("token");
   const [allPosts, setAllPosts] = useState([]);
   const [userProfil, setUserProfil] = useState([]);
   const [count, setCount] = useState(3);
