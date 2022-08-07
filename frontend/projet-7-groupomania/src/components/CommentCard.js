@@ -19,7 +19,7 @@ const CommentCard = ({
       <div className="comment-core">
         <div className="comment-content">{comment.content}</div>
         <div className="comment-options">
-          {comment.user_id === user.id && (
+          {comment.user_id === user.id || user.admin !== 0 ? (
             <div className="comment-options__delete">
               <DeleteComment
                 comment={comment}
@@ -30,6 +30,8 @@ const CommentCard = ({
                 setCommentsNumber={setCommentsNumber}
               />
             </div>
+          ) : (
+            ""
           )}
         </div>
       </div>

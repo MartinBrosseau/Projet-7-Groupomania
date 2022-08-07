@@ -1,5 +1,5 @@
 const postRegEx = new RegExp(
-  /^[a-zA-Z0-9\u0080-\u024F\s\/\-\)\(\,\.\"\?\!\:]+$/i
+  /^[a-zA-Z0-9\u0080-\u024F\s\/\-\)\(\,\.\"\?\!\'\€\:]+$/i
 );
 
 module.exports = (req, res, next) => {

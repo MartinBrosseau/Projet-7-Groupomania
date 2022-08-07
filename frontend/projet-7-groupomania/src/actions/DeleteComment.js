@@ -12,6 +12,7 @@ const DeleteComment = ({
   post,
 }) => {
   const token = sessionStorage.getItem("token");
+
   const deleteComment = () => {
     axios
       .delete(`${process.env.REACT_APP_API_URL}/comment/deleteComment`, {

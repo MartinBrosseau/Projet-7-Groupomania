@@ -26,11 +26,10 @@
             align-items: center;
         }
         .userPosts {
+            max-width: 50%;
             display: flex;
             flex-direction: column;
             align-items: center;
-           
-            
             border-radius: 10px;
         }
         .userOptions {

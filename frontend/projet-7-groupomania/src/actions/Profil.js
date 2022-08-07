@@ -59,6 +59,9 @@ const Profil = () => {
       .then(function (res) {
         setUserInfos(res.data.username);
         navigate("/homepage");
+      })
+      .catch((err) => {
+        this.setState({ errorMessage: err.message });
       });
   };
 
@@ -131,7 +134,12 @@ const Profil = () => {
           <h4>Vos posts :</h4>
           <div className="user-posts">
             {userPosts.map((post, index) => (
-              <PostCard key={post.Id} post={post} user={userProfil} />
+              <PostCard
+                key={post.Id}
+                post={post}
+                user={userProfil}
+                userPosts={userPosts}
+              />
             ))}
           </div>
         </div>

@@ -67,6 +67,7 @@ exports.login = (req, res, next) => {
   let findUserValues = [userEmail];
   findUser = mysql.format(findUser, findUserValues);
   dataBaseConnection.query(findUser, function (error, result) {
+    console.log(result);
     if (result === "" || result == undefined) {
       return res.status(401).json({
         error: "Utilisateur introuvable,veuillez vérifier votre adresse mail",
@@ -94,7 +95,7 @@ exports.login = (req, res, next) => {
 
 exports.userProfil = (req, res, next) => {
   //Récuperation de l'utilisateur grâce a son token fournit lors de la connection
-  let getUser = "SELECT username, email, id FROM users WHERE id = ?";
+  let getUser = "SELECT username, email, id, admin FROM users WHERE id = ?";
   let getUserValues = [req.auth.userId];
   getUser = mysql.format(getUser, getUserValues);
   dataBaseConnection.query(getUser, function (error, result) {
@@ -105,6 +106,7 @@ exports.userProfil = (req, res, next) => {
         username: result[0].username,
         email: result[0].email,
         id: result[0].id,
+        admin: result[0].admin,
       });
     }
   });

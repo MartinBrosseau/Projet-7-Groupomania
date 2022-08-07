@@ -10,7 +10,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 
-const PostCard = ({ post, user, allPosts, setAllPosts }) => {
+const PostCard = ({ post, user, setAllPosts }) => {
   const [showComments, setShowComments] = useState(false);
   const [commentsNumber, setCommentsNumber] = useState(post.comments_number);
   const [likesNumber, setLikesNumber] = useState(post.likes_number);
@@ -25,6 +25,8 @@ const PostCard = ({ post, user, allPosts, setAllPosts }) => {
     };
     return new Date(timeStamp).toLocaleDateString(undefined, options);
   };
+
+  const canDeletePost = post.user_id === user.id || user.admin !== 0;
 
   return (
     <div className="post-card" key={post.id}>
@@ -43,12 +45,13 @@ const PostCard = ({ post, user, allPosts, setAllPosts }) => {
         </div>
 
         <div className="post-header__options">
-          {post.user_id === user.id && (
+          {canDeletePost && (
             <div className="post-header__options__delete">
               <DeletePost
                 postId={post.Id}
                 postCreator={post.user_id}
                 setAllPosts={setAllPosts}
+                isAdmin={user.admin}
                 alt="delete post"
               />
             </div>

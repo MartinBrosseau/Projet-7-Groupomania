@@ -117,51 +117,50 @@ exports.deletePost = (req, res, next) => {
         });
       }
     });
-  }
-
-  if (req.auth.userId !== postCreator) {
-    //Suppression par le créateur du post
-    return res.status(401).json({ error: "Ce n'est pas votre post !" });
   } else {
-    let postImg = "SELECT imageUrl FROM posts where Id = ?";
-    let postImgValues = [postId];
-    postImg = mysql.format(postImg, postImgValues);
-    let deletePost = "DELETE FROM posts WHERE posts.Id = ?";
-    let deletePostValues = [postId];
-    deletePost = mysql.format(deletePost, deletePostValues);
-    dataBaseConnection.query(postImg, function (error, image) {
-      if (error) {
-        return res
-          .status(400)
-          .json({ error: "La récupération de l'image a échouée" });
-      } else {
-        let imgUrl = image[0].imageUrl;
-        if (imgUrl !== "") {
-          const filename = imgUrl.split("/images/")[1];
-          fs.unlink(`images/${filename}`, () => {});
+    if (req.auth.userId !== postCreator) {
+      //Suppression par le créateur du post
+      return res.status(401).json({ error: "Ce n'est pas votre post !" });
+    } else {
+      let postImg = "SELECT imageUrl FROM posts where Id = ?";
+      let postImgValues = [postId];
+      postImg = mysql.format(postImg, postImgValues);
+      let deletePost = "DELETE FROM posts WHERE posts.Id = ?";
+      let deletePostValues = [postId];
+      deletePost = mysql.format(deletePost, deletePostValues);
+      dataBaseConnection.query(postImg, function (error, image) {
+        if (error) {
+          return res
+            .status(400)
+            .json({ error: "La récupération de l'image a échouée" });
         } else {
-          console.log("Pas d'image");
-        }
-        dataBaseConnection.query(deletePost, function (error, result) {
-          if (error) {
-            return res
-              .status(400)
-              .json({ error: "La suppression du post a échouée !" });
+          let imgUrl = image[0].imageUrl;
+          if (imgUrl !== "") {
+            const filename = imgUrl.split("/images/")[1];
+            fs.unlink(`images/${filename}`, () => {});
           } else {
-            return res
-              .status(200)
-              .json({ message: "Post supprimé par l'utilisateur" });
+            console.log("Pas d'image");
           }
-        });
-      }
-    });
+          dataBaseConnection.query(deletePost, function (error, result) {
+            if (error) {
+              return res
+                .status(400)
+                .json({ error: "La suppression du post a échouée !" });
+            } else {
+              return res
+                .status(200)
+                .json({ message: "Post supprimé par l'utilisateur" });
+            }
+          });
+        }
+      });
+    }
   }
 };
 
 exports.getAllPosts = (req, res, next) => {
   let allPosts =
-    "SELECT posts.Id, posts.user_id, description, imageUrl, title, creationDate, (SELECT COUNT (*) FROM likes WHERE likes.post_id = posts.Id) AS likes_number, (SELECT COUNT (*) FROM comments WHERE comments.post_id = posts.Id) AS comments_number, (SELECT users.username FROM users WHERE posts.user_id = users.id) AS post_creator FROM posts";
-
+    "SELECT posts.Id, posts.user_id, description, imageUrl, title, creationDate, (SELECT COUNT (*) FROM likes WHERE likes.post_id = posts.Id) AS likes_number, (SELECT COUNT (*) FROM comments WHERE comments.post_id = posts.Id) AS comments_number, (SELECT users.username FROM users WHERE posts.user_id = users.id) AS post_creator FROM posts ";
   dataBaseConnection.query(allPosts, function (error, result) {
     if (error) {
       return res
