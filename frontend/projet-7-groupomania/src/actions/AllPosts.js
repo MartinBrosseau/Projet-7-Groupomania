@@ -8,6 +8,17 @@ const AllPosts = () => {
   const [userProfil, setUserProfil] = useState([]);
   const [count, setCount] = useState(3);
 
+  useEffect(() => {
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/post/getAllPosts`, {
+        headers: { authorization: `Bearer ${token}` },
+        params: { id: allPosts.id },
+      })
+      .then((res) => {
+        setAllPosts(res.data);
+      });
+  }, [token, allPosts.id, allPosts.user_id, count, setAllPosts]);
+
   const loadMore = () => {
     if (
       window.innerHeight + document.documentElement.scrollTop + 1 >
@@ -17,18 +28,6 @@ const AllPosts = () => {
       setCount(count + 3);
     }
   };
-
-  useEffect(() => {
-    axios
-      .get(`${process.env.REACT_APP_API_URL}/post/getAllPosts`, {
-        headers: { authorization: `Bearer ${token}` },
-        params: { id: allPosts.id },
-      })
-      .then((res) => {
-        const postsArray = res.data.slice(0, count);
-        setAllPosts(postsArray);
-      });
-  }, [token, allPosts.id, allPosts.user_id, count]);
 
   useEffect(() => {
     window.addEventListener("scroll", loadMore);
@@ -46,14 +45,20 @@ const AllPosts = () => {
   return (
     <div className="posts-container">
       <div className="all-posts">
-        {allPosts.map((post, index) => (
-          <PostCard
-            post={post}
-            key={post.Id}
-            user={userProfil}
-            setAllPosts={setAllPosts}
-          />
-        ))}
+        {allPosts
+          .sort((x, y) => {
+            return y.Id - x.Id;
+          })
+          .slice(0, count)
+          .map((post, index) => (
+            <PostCard
+              post={post}
+              key={post.Id}
+              user={userProfil}
+              allPosts={allPosts}
+              setAllPosts={setAllPosts}
+            />
+          ))}
       </div>
     </div>
   );

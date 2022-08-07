@@ -3,13 +3,13 @@
       display: flex;
       justify-content: center;
       margin: 30px;
-  
+      
       a {
         text-decoration: none;
         padding: 10px;
         font-family: $font-bold;
         font-size: 20px;
-  
+        border: 1px solid $color-2;
         li {
           color: $color-1;
           transition: 0.2s;

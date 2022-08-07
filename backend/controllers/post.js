@@ -163,7 +163,6 @@ exports.getAllPosts = (req, res, next) => {
     "SELECT posts.Id, posts.user_id, description, imageUrl, title, creationDate, (SELECT COUNT (*) FROM likes WHERE likes.post_id = posts.Id) AS likes_number, (SELECT COUNT (*) FROM comments WHERE comments.post_id = posts.Id) AS comments_number, (SELECT users.username FROM users WHERE posts.user_id = users.id) AS post_creator FROM posts";
 
   dataBaseConnection.query(allPosts, function (error, result) {
-    console.log(result);
     if (error) {
       return res
         .status(400)
@@ -181,6 +180,7 @@ exports.getOnePost = (req, res, next) => {
   let onePostValues = [postId];
   onePost = mysql.format(onePost, onePostValues);
   dataBaseConnection.query(onePost, function (error, result) {
+    console.log(result);
     if (error) {
       return res.status(400).json({ error: "Impossible de récupérer ce post" });
     } else {
@@ -222,7 +222,6 @@ exports.likePost = (req, res, next) => {
   unlike = mysql.format(unlike, unlikeValues);
 
   dataBaseConnection.query(alreadyliked, function (error, userLiked) {
-    console.log(userLiked);
     if (error) {
       return res
         .status(400)

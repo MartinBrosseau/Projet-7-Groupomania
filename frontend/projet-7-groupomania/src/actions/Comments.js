@@ -13,6 +13,7 @@ const Comments = ({ post, user, setCommentsNumber }) => {
         headers: { authorization: `Bearer ${token}` },
         params: { postId: post.Id },
       })
+
       .then((res) => setAllComments(res.data));
   }, [token, post.Id]);
   return (
@@ -25,16 +26,18 @@ const Comments = ({ post, user, setCommentsNumber }) => {
           setAllComments={setAllComments}
           allComments={allComments}
         />
-        {allComments.map((comment, index) => (
-          <CommentCard
-            comment={comment}
-            key={comment.ID}
-            post={post}
-            user={user}
-            setAllComments={setAllComments}
-            setCommentsNumber={setCommentsNumber}
-          />
-        ))}
+        <div className="comments-map">
+          {allComments.map((comment, index) => (
+            <CommentCard
+              comment={comment}
+              key={index}
+              post={post}
+              user={user}
+              setAllComments={setAllComments}
+              setCommentsNumber={setCommentsNumber}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );

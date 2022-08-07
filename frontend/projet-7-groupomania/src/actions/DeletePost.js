@@ -20,7 +20,7 @@ const DeletePost = ({ postId, postCreator, setAllPosts }) => {
   };
 
   return (
-    <button className="delete-post">
+    <button className="delete-post" aria-label="delete post">
       <FontAwesomeIcon
         icon={faTrashCan}
         className="icone-option"

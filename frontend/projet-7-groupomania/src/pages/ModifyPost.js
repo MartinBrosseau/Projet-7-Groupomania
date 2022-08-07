@@ -117,7 +117,11 @@ const ModifyPost = () => {
             >
               Modifier
             </button>
-            <button className="btn btn-primary btn" onClick={backToHomepage}>
+            <button
+              className="btn btn-primary btn"
+              onClick={backToHomepage}
+              aria-label="modify post"
+            >
               Annuler
             </button>
           </div>

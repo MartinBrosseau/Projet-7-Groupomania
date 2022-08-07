@@ -10,7 +10,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 
-const PostCard = ({ post, user, setAllPosts }) => {
+const PostCard = ({ post, user, allPosts, setAllPosts }) => {
   const [showComments, setShowComments] = useState(false);
   const [commentsNumber, setCommentsNumber] = useState(post.comments_number);
   const [likesNumber, setLikesNumber] = useState(post.likes_number);
@@ -49,6 +49,7 @@ const PostCard = ({ post, user, setAllPosts }) => {
                 postId={post.Id}
                 postCreator={post.user_id}
                 setAllPosts={setAllPosts}
+                alt="delete post"
               />
             </div>
           )}
@@ -57,6 +58,7 @@ const PostCard = ({ post, user, setAllPosts }) => {
             <button className="post-header__options__modify">
               <Link
                 to="/modifypost"
+                aria-label="modify post"
                 state={{
                   title: post.title,
                   img: post.imageUrl,

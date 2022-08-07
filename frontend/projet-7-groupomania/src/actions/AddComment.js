@@ -37,11 +37,11 @@ const AddComment = ({
         }
       )
       .then((res) => {
-        console.log(data);
         const newCommentsList = [...allComments];
         newCommentsList.push(data);
         setAllComments(newCommentsList);
         setCommentsNumber(++post.comments_number);
+        event.target.reset();
       });
   };
 
@@ -49,7 +49,7 @@ const AddComment = ({
     <div>
       <div className="new-comment">
         {user.id && (
-          <form action="post" className="form">
+          <form action="post" className="form" onSubmit={handleSubmit}>
             <div className="form-group">
               <label htmlFor="content">
                 <input
@@ -63,11 +63,7 @@ const AddComment = ({
               </label>
 
               <br />
-              <button
-                className="btn btn-primary"
-                type="submit"
-                onClick={handleSubmit}
-              >
+              <button className="btn btn-primary" type="submit">
                 Envoyer
               </button>
             </div>

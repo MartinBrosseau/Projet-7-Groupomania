@@ -33,6 +33,7 @@ exports.getComments = (req, res, next) => {
   let getCommentsValues = [postId];
   getComments = mysql.format(getComments, getCommentsValues);
   dataBaseConnection.query(getComments, function (error, result) {
+    console.log(result);
     if (error) {
       return res
         .status(400)

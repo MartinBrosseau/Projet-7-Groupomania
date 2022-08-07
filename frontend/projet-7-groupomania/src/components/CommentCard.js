@@ -12,7 +12,7 @@ const CommentCard = ({
     <div className="comment-card">
       <div className="comment-header">
         <h5>
-          {comment.username}
+          {comment.username || user.username}
           <small> a réagi</small>
         </h5>
       </div>

@@ -11,6 +11,11 @@ const NewPost = () => {
     description: "",
   });
 
+  const backToHomepage = () => {
+    let path = "/homepage";
+    navigate(path);
+  };
+
   const handleChange = (event) => {
     const { value, name } = event.target;
 
@@ -88,6 +93,9 @@ const NewPost = () => {
           Publier
         </button>
       </form>
+      <button className="btn btn-primary" onClick={backToHomepage}>
+        Retour
+      </button>
     </div>
   );
 };

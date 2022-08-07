@@ -4,6 +4,10 @@
     box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
     margin-top: 100px;
     width: 40%;
+    border: 1px solid $color-2;
+    label {
+        color: white;
+    }
     @include tabletScreen {
         width: 75%;
     }
