@@ -6,6 +6,7 @@ import { UserToken } from "../components/UserToken";
 
 const LoginForm = () => {
   const { setToken } = useContext(UserToken);
+  const [hasError, setError] = useState(false);
 
   let [loginInfos, setLoginInfos] = useState({
     email: "",
@@ -13,6 +14,7 @@ const LoginForm = () => {
   });
 
   const handleChange = (event) => {
+    setError(false);
     const { value, name } = event.target;
 
     setLoginInfos((prevalue) => {
@@ -29,12 +31,13 @@ const LoginForm = () => {
     event.preventDefault();
     const data = loginInfos;
     axios
-      .post(`${process.env.REACT_APP_API_URL}/auth/login`, { ...data }) //.catch
+      .post(`${process.env.REACT_APP_API_URL}/auth/login`, { ...data })
       .then(function (res) {
         setToken(res.data.token);
         sessionStorage.setItem("token", res.data.token);
         navigate("/homepage");
-      });
+      })
+      .catch((err) => setError(true));
   };
 
   return (
@@ -79,6 +82,7 @@ const LoginForm = () => {
         >
           Connexion
         </button>
+        {hasError && alert("Veuillez vérifier vos identifiants")}
       </form>
     </div>
   );

@@ -7,6 +7,7 @@ import PostCard from "../components/PostCard";
 const Profil = () => {
   const navigate = useNavigate();
   const token = sessionStorage.getItem("token");
+  const [hasError, setError] = useState(false);
   const [userProfil, setUserProfil] = useState([]);
   const [userPosts, setUserPosts] = useState([]);
 
@@ -36,6 +37,7 @@ const Profil = () => {
   });
 
   const handleChange = (event) => {
+    setError(false);
     const { value, name } = event.target;
     setUserInfos((prevalue) => {
       return {
@@ -60,9 +62,7 @@ const Profil = () => {
         setUserInfos(res.data.username);
         navigate("/homepage");
       })
-      .catch((err) => {
-        this.setState({ errorMessage: err.message });
-      });
+      .catch((err) => setError(true));
   };
 
   function deleteUser() {
@@ -110,6 +110,10 @@ const Profil = () => {
               >
                 Enregistrer
               </button>
+              {hasError &&
+                alert(
+                  "Une erreur s'est produite lors de la modification de votre profil"
+                )}
             </form>
             <button className="btn btn-primary" onClick={backToHomepage}>
               Retour

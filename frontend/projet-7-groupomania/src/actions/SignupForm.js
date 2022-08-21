@@ -3,9 +3,18 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { UserToken } from "../components/UserToken";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleInfo } from "@fortawesome/free-solid-svg-icons";
 
 const SignupForm = () => {
+  const [hasError, setError] = useState(false);
   const { setToken } = useContext(UserToken);
+  const [classNames, setClassNames] = useState("form-control");
+  const [passwordInfos, setPasswordInfos] = useState(false);
+  const password = document.getElementById("password");
+  const passwordRegex = new RegExp(
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
+  );
 
   const [signupInfos, setSignupInfos] = useState({
     username: "",
@@ -13,7 +22,21 @@ const SignupForm = () => {
     password: "",
   });
 
+  const onChanges = (e) => {
+    handleChange(e);
+    passwordValidation();
+  };
+
+  const passwordValidation = () => {
+    if (!passwordRegex.test(password.value) & (password !== null)) {
+      setClassNames("form-control notValid");
+    } else {
+      setClassNames("form-control isValid");
+    }
+  };
+
   const handleChange = (event) => {
+    setError(false);
     const { value, name } = event.target;
 
     setSignupInfos((prevalue) => {
@@ -35,7 +58,8 @@ const SignupForm = () => {
         setToken(res.data.token);
         sessionStorage.setItem("token", res.data.token);
         navigate("/homepage");
-      });
+      })
+      .catch((err) => setError(true));
   };
 
   return (
@@ -73,14 +97,28 @@ const SignupForm = () => {
           <label htmlFor="password">
             Mot de passe
             <input
-              className="form-control"
+              className={classNames}
               type="password"
-              onChange={handleChange}
+              onChange={onChanges}
               name="password"
               id="password"
               placeholder="mot de passe"
             />
           </label>
+          <div className="show-infos">
+            <FontAwesomeIcon
+              icon={faCircleInfo}
+              size="lg"
+              onClick={() => setPasswordInfos(!passwordInfos)}
+              className="show-infos__icon"
+            />
+            {passwordInfos && (
+              <span className="show-infos__text">
+                Votre mot de passe doit contenir au moins 8 caractères dont 1
+                majuscule, 1 minuscule, 1 chiffre et 1 caractère spécial.
+              </span>
+            )}
+          </div>
         </div>
 
         <button
@@ -90,6 +128,10 @@ const SignupForm = () => {
         >
           Inscription
         </button>
+        {hasError &&
+          alert(
+            "Votre adresse mail ou votre mot de passe de sont pas au format requis"
+          )}
       </form>
     </div>
   );

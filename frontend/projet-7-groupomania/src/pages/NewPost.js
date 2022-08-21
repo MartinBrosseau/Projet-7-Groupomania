@@ -6,6 +6,7 @@ const NewPost = () => {
   const navigate = useNavigate();
   const token = sessionStorage.getItem("token");
   const imgFiled = useRef(null);
+  const [hasError, setError] = useState(false);
   const [postInfos, setPostInfos] = useState({
     title: "",
     description: "",
@@ -17,6 +18,7 @@ const NewPost = () => {
   };
 
   const handleChange = (event) => {
+    setError(false);
     const { value, name } = event.target;
 
     setPostInfos((prevalue) => {
@@ -44,7 +46,8 @@ const NewPost = () => {
       )
       .then(function (res) {
         navigate("/homepage");
-      });
+      })
+      .catch((err) => setError(true));
   };
 
   return (
@@ -92,6 +95,8 @@ const NewPost = () => {
         >
           Publier
         </button>
+        {hasError &&
+          alert("Une erreur s'est produite lors d ela création de votre post")}
       </form>
       <button className="btn btn-primary" onClick={backToHomepage}>
         Retour

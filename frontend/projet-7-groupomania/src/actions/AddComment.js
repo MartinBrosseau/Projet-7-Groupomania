@@ -9,11 +9,13 @@ const AddComment = ({
   setCommentsNumber,
 }) => {
   const token = sessionStorage.getItem("token");
+  const [hasError, setError] = useState(false);
   const [commentText, setCommentText] = useState({
     content: "",
   });
 
   const handleChange = (e) => {
+    setError(false);
     const { value, name } = e.target;
 
     setCommentText((prevalue) => {
@@ -42,7 +44,8 @@ const AddComment = ({
         setAllComments(newCommentsList);
         setCommentsNumber(++post.comments_number);
         event.target.reset();
-      });
+      })
+      .catch((err) => setError(true));
   };
 
   return (
@@ -67,6 +70,10 @@ const AddComment = ({
                 Envoyer
               </button>
             </div>
+            {hasError &&
+              alert(
+                "Une erreur s'est produite lors de la création de votre commentaire"
+              )}
           </form>
         )}
       </div>
